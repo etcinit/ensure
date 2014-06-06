@@ -6,7 +6,7 @@ A simple library for checking types in Javascript + extras
 
 To check if a variable is a string:
 
-```
+```js
 var hello = 'Hello World';
 
 ensure(hello, String, true);
@@ -18,10 +18,10 @@ when a type does not match, instead it will return a boolean value.
 
 On the default mode:
 
-```
+```js
 var hello = 'Hello World';
 
-ensure(hello, String, true);
+ensure(hello, String);
 >> TypeException: Invalid type: Expected String
 ```
 
@@ -37,15 +37,19 @@ ensure(hello, String, true);
 
 __isIn(object, array)__
 Check if object is in an array:
-`ensure.isIn(object, array);`
+```js
+ensure.isIn(object, array);
+```
 
 __isInRange(object, min, max)__
 Check if a number is within a range:
-`ensure.isInRange(object, min, max);`
+```js
+ensure.isInRange(object, min, max);
+```
 
 Example:
 
-```
+```js
 var hello = 'Hello';
 
 ensure.isInRange(hello.length,0,3);
@@ -57,4 +61,6 @@ ensure.isInRange(hello.length,0,6);
 
 __isPositiveNumber(object)__
 Check if a number is positive:
-`ensure.isPositiveNumber(object);`
+```js
+ensure.isPositiveNumber(object);
+```

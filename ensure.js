@@ -1,30 +1,52 @@
 var ensure,
     TypeException;
 
-ensure = function (object, type) {
+ensure = function (object, type, soft) {
     "use strict";
 
     if (type === String) {
         if (ensure.isNotString(object)) {
+            if (soft) {
+                return false;
+            }
+
             throw new TypeException(String);
         }
     } else if (type === Boolean) {
         if (ensure.isNotBoolean(object)) {
+            if (soft) {
+                return false;
+            }
+
             throw new TypeException(Boolean);
         }
     } else if (type === Array) {
         if (ensure.isNotArray(object)) {
+            if (soft) {
+                return false;
+            }
+
             throw new TypeException(Array);
         }
     } else if (type === Number) {
         if (ensure.isNotNumber(object)) {
+            if (soft) {
+                return false;
+            }
+
             throw new TypeException(Number);
         }
     } else {
         if (!object instanceof type) {
+            if (soft) {
+                return false;
+            }
+
             throw new TypeException(type);
         }
     }
+
+    return true;
 };
 
 /**
