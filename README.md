@@ -65,4 +65,4 @@ Check if a number is positive:
 ensure.isPositiveNumber(object);
 ```
 
-and a few more, just take a look a source
+and a few more, just take a look at the source
