@@ -52,10 +52,10 @@ Example:
 ```js
 var hello = 'Hello';
 
-ensure.isInRange(hello.length,0,3);
+ensure.isInRange(hello.length, 0, 3);
 >> false
 
-ensure.isInRange(hello.length,0,6);
+ensure.isInRange(hello.length, 0, 6);
 >> true
 ```
 
@@ -64,3 +64,5 @@ Check if a number is positive:
 ```js
 ensure.isPositiveNumber(object);
 ```
+
+and a few more, just take a look a source
