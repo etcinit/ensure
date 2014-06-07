@@ -13,6 +13,11 @@ var hello = 'Hello World';
 
 ensure(hello, String, true);
 >> true
+
+var notString = 1337;
+
+ensure(notString, String, true);
+>> false
 ```
 
 The previous example is using the "soft mode", which means that ensure won't throw an Error
@@ -24,7 +29,38 @@ On the default mode:
 var hello = 'Hello World';
 
 ensure(hello, String);
+>> undefined
+
+ensure(90210, String);
 >> TypeException: Invalid type: Expected String
+```
+
+## On the browser
+
+1.- Include the JS file on your project:
+
+```html
+<script src="lib/ensure.js"></script>
+```
+2.- Use it!
+
+```
+console.log(ensure('It works!', String));
+```
+
+## On Node.js
+
+1.- Put ensure.js on your project dir (Sorry, npm yet)
+2.- Include the library in your project:
+
+```
+var ensure = require('ensure');
+```
+
+3.- Use it!
+
+```
+console.log(ensure('It works!', String));
 ```
 
 ## Supported types:
