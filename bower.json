@@ -1,0 +1,25 @@
+{
+  "name": "ensure.js",
+  "main": "ensure.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/eduard44/ensure",
+  "authors": [
+    "Eduardo Trujillo <ed@chromabits.com>"
+  ],
+  "description": "Simple JS type-checking + extras",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "type-checking"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
