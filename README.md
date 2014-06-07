@@ -1,3 +1,5 @@
+![Logo](http://assets.chromabits.com/ensure/logo.png)
+
 # Ensure.js
 
 A simple library for checking types in Javascript + extras
