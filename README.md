@@ -6,6 +6,17 @@ A simple library for checking types in Javascript + extras
 
 ## Usage
 
+Ensure is available as a global variable (or a module on Node):
+
+__ensure(object, type, soft = false)__
+
+- __object:__ Is the object you are checking
+- __type:__ Is the type you are expecting It can be any "class" in JavaScript, such as `String`, `Error`, or `Boolean`.
+- __soft:__ If set to true, ensure won't throw an error when the type does not match
+
+For most objects, Ensure will do a simple `instanceof` check. However, some built-in objects (String, Number, Boolean)
+are trickier to check so the library will do some custom checking functions for these.
+
 To check if a variable is a string:
 
 ```js
@@ -44,7 +55,7 @@ ensure(90210, String);
 ```
 2.- Use it!
 
-```
+```js
 console.log(ensure('It works!', String));
 ```
 
@@ -53,13 +64,13 @@ console.log(ensure('It works!', String));
 1.- Put ensure.js on your project dir (Sorry, npm yet)
 2.- Include the library in your project:
 
-```
+```js
 var ensure = require('ensure');
 ```
 
 3.- Use it!
 
-```
+```js
 console.log(ensure('It works!', String));
 ```
 
