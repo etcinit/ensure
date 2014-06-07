@@ -1,0 +1,22 @@
+{
+  "name": "ensure.js",
+  "version": "0.1.0",
+  "description": "Simple JS type-checking + extras",
+  "main": "ensure.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eduard44/ensure.git"
+  },
+  "keywords": [
+    "type-checking"
+  ],
+  "author": "Eduardo Trujillo <ed@chromabits.com> (http://chromabits.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eduard44/ensure/issues"
+  },
+  "homepage": "https://github.com/eduard44/ensure"
+}

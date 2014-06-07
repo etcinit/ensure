@@ -48,12 +48,18 @@ ensure(90210, String);
 
 ## On the browser
 
-1.- Include the JS file on your project:
+1.- Install using [Bower](http://bower.io):
+
+```
+bower install ensure.js
+```
+
+2.- Include the JS file on your project:
 
 ```html
 <script src="lib/ensure.js"></script>
 ```
-2.- Use it!
+3.- Use it!
 
 ```js
 console.log(ensure('It works!', String));
@@ -61,11 +67,16 @@ console.log(ensure('It works!', String));
 
 ## On Node.js
 
-1.- Put ensure.js on your project dir (Sorry, npm yet)
+1.- Install using npm:
+
+```
+npm install ensure.js
+```
+
 2.- Include the library in your project:
 
 ```js
-var ensure = require('ensure');
+var ensure = require('ensure.js');
 ```
 
 3.- Use it!
