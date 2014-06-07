@@ -57,7 +57,7 @@ bower install ensure.js
 2.- Include the JS file on your project:
 
 ```html
-<script src="lib/ensure.js"></script>
+<script src="bower_components/ensure.js/ensure.js"></script>
 ```
 3.- Use it!
 
