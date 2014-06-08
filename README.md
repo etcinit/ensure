@@ -95,6 +95,42 @@ console.log(ensure('It works!', String));
 
 ## Extras:
 
+__require(object)__
+Throw an error if `object` is undefined, null or an empty string:
+```js
+var hello;
+
+ensure.require(hello);
+>> [Error]
+
+hello = '';
+
+ensure.require(hello);
+>> [Error]
+
+hello = 'Hello World';
+
+ensure.require(hello); // This shouldn't do anything (which is good)
+>> undefined
+```
+
+__requireIsNewThis(constructor, context)__
+Throw an error if a constructor is called without `new`
+
+Useful for preventing development mistakes
+
+```js
+var myObject = function () {
+    ensure.requireIsNewThis(myObject, this);
+};
+
+var instance = new newObject(); // This should just create the instance normally
+>> undefined
+
+var instance = newObject(); // An error is thrown, new is missing
+>> [Error]
+```
+
 __isIn(object, array)__
 Check if object is in an array:
 ```js

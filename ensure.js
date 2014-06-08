@@ -1,5 +1,6 @@
 var ensure,
-    TypeException;
+    TypeException,
+    root;
 
 ensure = function (object, type, soft) {
     "use strict";
@@ -105,6 +106,11 @@ ensure.isNotBoolean = function (object) {
 ensure.isNumber = function (object) {
     "use strict";
 
+    // Exclude booleans
+    if (object === false || object === true) {
+        return false;
+    }
+
     return !isNaN(object);
 };
 
@@ -117,7 +123,7 @@ ensure.isNumber = function (object) {
 ensure.isNotNumber = function (object) {
     "use strict";
 
-    return isNaN(object);
+    return !this.isNumber(object);
 };
 
 /**
@@ -128,6 +134,11 @@ ensure.isNotNumber = function (object) {
  */
 ensure.isString = function (object) {
     "use strict";
+
+    // Check for when it is instantiated as an object
+    if (object instanceof String) {
+        return true;
+    }
 
     return (typeof object === "string");
 };
@@ -253,6 +264,59 @@ ensure.isNotArray = function (object) {
     return !this.isArray(object);
 };
 
+/**
+ * Check whether or not the specified object is the root (window, global) object
+ *
+ * Useful for checking if a constructor function is being called without the new
+ * keyword.
+ *
+ * @param constructor - The constructor function of the object
+ * @param context - The this context (inside the constructor function)
+ */
+ensure.isNewThis = function (constructor, context) {
+    "use strict";
+
+    // Extra check to see if it is the window/global object
+    if (context === root) {
+        return false;
+    }
+
+    // Now check if this matches the constructor
+    return context instanceof constructor;
+};
+
+/**
+ * Check if an object is defined, fail otherwise
+ *
+ * @param object
+ */
+ensure.require = function (object) {
+    "use strict";
+
+    if (ensure.isEmpty(object)) {
+        throw new Error('Expected a defined variable. Got null, undefined, or empty string');
+    }
+};
+
+/**
+ * Check if a constructor was called with the "new" keyword
+ *
+ * Useful during development for preventing constructor functions messing up
+ * the global context when they are called without the new keyword
+ *
+ * This function will throw an error when your object is constructed without using new
+ *
+ * @param constructor
+ * @param context
+ */
+ensure.requireIsNewThis = function (constructor, context) {
+    "use strict";
+
+    if (!ensure.isNewThis(constructor, context)) {
+        throw new Error('Expected the function to be called as a constructor with the "new" keyword');
+    }
+};
+
 TypeException = function (expectedType, message) {
     "use strict";
 
@@ -269,7 +333,7 @@ TypeException.prototype.constructor = TypeException;
 (function () {
 
     // Establish the root object, `window` in the browser, or `global` on the server.
-    var root = this;
+    root = this;
 
     var isNode = false;
 

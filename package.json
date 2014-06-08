@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/eduard44/ensure/issues"
   },
-  "homepage": "https://github.com/eduard44/ensure"
+  "homepage": "https://github.com/eduard44/ensure",
+  "devDependencies": {
+    "nodeunit": "^0.9.0"
+  }
 }
