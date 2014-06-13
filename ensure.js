@@ -6,7 +6,7 @@ ensure = function (object, type, soft) {
     "use strict";
 
     if (type === String) {
-        if (ensure.isNotString(object)) {
+        if (ensure.not.isString(object)) {
             if (soft) {
                 return false;
             }
@@ -14,7 +14,7 @@ ensure = function (object, type, soft) {
             throw new TypeException(String);
         }
     } else if (type === Boolean) {
-        if (ensure.isNotBoolean(object)) {
+        if (ensure.not.isBoolean(object)) {
             if (soft) {
                 return false;
             }
@@ -22,7 +22,7 @@ ensure = function (object, type, soft) {
             throw new TypeException(Boolean);
         }
     } else if (type === Array) {
-        if (ensure.isNotArray(object)) {
+        if (ensure.not.isArray(object)) {
             if (soft) {
                 return false;
             }
@@ -30,7 +30,7 @@ ensure = function (object, type, soft) {
             throw new TypeException(Array);
         }
     } else if (type === Number) {
-        if (ensure.isNotNumber(object)) {
+        if (ensure.not.isNumber(object)) {
             if (soft) {
                 return false;
             }
@@ -59,19 +59,7 @@ ensure = function (object, type, soft) {
 ensure.isEmpty = function (object) {
     "use strict";
 
-    return (object === undefined || object === null || object === '');
-};
-
-/**
- * Check if the object is not undefined, null, or an empty string
- *
- * @param object
- * @returns {boolean}
- */
-ensure.isNotEmpty = function (object) {
-    "use strict";
-
-    return !this.isEmpty(object);
+    return this.response((object === undefined || object === null || object === ''));
 };
 
 /**
@@ -83,18 +71,7 @@ ensure.isNotEmpty = function (object) {
 ensure.isBoolean = function (object) {
     "use strict";
 
-    return (typeof object === "boolean");
-};
-
-/**
- * Check if the object is not a boolean value
- *
- * @returns {boolean}
- */
-ensure.isNotBoolean = function (object) {
-    "use strict";
-
-    return !this.isBoolean(object);
+    return this.response((typeof object === "boolean"));
 };
 
 /**
@@ -108,22 +85,10 @@ ensure.isNumber = function (object) {
 
     // Exclude booleans
     if (object === false || object === true) {
-        return false;
+        return this.response(false);
     }
 
-    return !isNaN(object);
-};
-
-/**
- * Check if object is not a number
- *
- * @param object
- * @returns {*}
- */
-ensure.isNotNumber = function (object) {
-    "use strict";
-
-    return !this.isNumber(object);
+    return this.response(!isNaN(object));
 };
 
 /**
@@ -137,22 +102,10 @@ ensure.isString = function (object) {
 
     // Check for when it is instantiated as an object
     if (object instanceof String) {
-        return true;
+        return this.response(true);
     }
 
-    return (typeof object === "string");
-};
-
-/**
- * Check if object is not a string
- *
- * @param object
- * @returns {boolean}
- */
-ensure.isNotString = function (object) {
-    "use strict";
-
-    return !this.isString(object);
+    return this.response((typeof object === "string"));
 };
 
 /**
@@ -166,33 +119,19 @@ ensure.isNotString = function (object) {
 ensure.isInRange = function (object, min, max) {
     "use strict";
 
-    if (!this.isEmpty(min)) {
+    if (!ensure.isEmpty(min)) {
         if (Number(object) < min) {
-            return false;
+            return this.response(false);
         }
     }
 
-    if (!this.isEmpty(max)) {
+    if (!ensure.isEmpty(max)) {
         if (Number(object) > max) {
-            return false;
+            return this.response(false);
         }
     }
 
-    return true;
-};
-
-/**
- * Check if object is not within a numerical range
- *
- * @param object
- * @param min
- * @param max
- * @returns {boolean}
- */
-ensure.isNotInRange = function (object, min, max) {
-    "use strict";
-
-    return !this.isInRange(object, min, max);
+    return this.response(true);
 };
 
 /**
@@ -204,27 +143,17 @@ ensure.isNotInRange = function (object, min, max) {
 ensure.isPositiveNumber = function (object) {
     "use strict";
 
-    if (!this.isNumber(object)) {
-        return false;
+    if (!ensure.isNumber(object)) {
+        alert('case 1');
+        return this.response(false);
     }
 
-    if (!this.isInRange(object, 0, null)) {
-        return false;
+    if (!ensure.isInRange(object, 0, null)) {
+        alert('here');
+        return this.response(false);
     }
 
-    return true;
-};
-
-/**
- * Check if object is not a positive number
- *
- * @param object
- * @returns {boolean}
- */
-ensure.isNotPositiveNumber = function (object) {
-    "use strict";
-
-    return !this.isPositiveNumber(object);
+    return this.response(true);
 };
 
 /**
@@ -237,7 +166,7 @@ ensure.isNotPositiveNumber = function (object) {
 ensure.isIn = function (needle, haystack) {
     "use strict";
 
-    return (haystack.indexOf(needle) >= 0);
+    return this.response((haystack.indexOf(needle) >= 0));
 };
 
 /**
@@ -249,19 +178,7 @@ ensure.isIn = function (needle, haystack) {
 ensure.isArray = function (object) {
     "use strict";
 
-    return Array.isArray(object);
-};
-
-/**
- * Check if object is not an array
- *
- * @param object
- * @returns {boolean}
- */
-ensure.isNotArray = function (object) {
-    "use strict";
-
-    return !this.isArray(object);
+    return this.response(Array.isArray(object));
 };
 
 /**
@@ -278,11 +195,11 @@ ensure.isNewThis = function (constructor, context) {
 
     // Extra check to see if it is the window/global object
     if (context === root) {
-        return false;
+        return this.response(false);
     }
 
     // Now check if this matches the constructor
-    return context instanceof constructor;
+    return this.response(context instanceof constructor);
 };
 
 /**
@@ -290,13 +207,13 @@ ensure.isNewThis = function (constructor, context) {
  *
  * @param object
  */
-ensure.require = function (object) {
-    "use strict";
-
-    if (ensure.isEmpty(object)) {
-        throw new Error('Expected a defined variable. Got null, undefined, or empty string');
-    }
-};
+//ensure.require = function (object) {
+//    "use strict";
+//
+//    if (ensure.isEmpty(object)) {
+//        throw new Error('Expected a defined variable. Got null, undefined, or empty string');
+//    }
+//};
 
 /**
  * Check if a constructor was called with the "new" keyword
@@ -316,6 +233,28 @@ ensure.requireIsNewThis = function (constructor, context) {
         throw new Error('Expected the function to be called as a constructor with the "new" keyword');
     }
 };
+
+ensure.response = function (bool) {
+    alert('called top');
+    return bool;
+};
+
+ensure.not = Object.create(ensure);
+
+ensure.not.response = function (bool) {
+    alert('called not');
+    return !bool;
+};
+
+//ensure.require = Object.create(ensure);
+//
+//ensure.require.not.response = function (bool) {
+//    alert('called require');
+//    if (!bool) {
+//        TypeException(undefined, "Invalid type");
+//    }
+//    return bool;
+//};
 
 TypeException = function (expectedType, message) {
     "use strict";
