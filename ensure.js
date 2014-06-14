@@ -1,6 +1,7 @@
 (function () {
     
     var ensure,
+        enforce,
         base,
         TypeException;
     
@@ -254,7 +255,6 @@
         if (!bool) {
             throw new TypeException(undefined, "Invalid type.");
         }
-        // return bool;
     };
     
     enforce.not = Object.create(base.prototype);
@@ -263,7 +263,6 @@
         if (bool) {
             throw new TypeException(undefined, "Invalid type.");
         }
-        // return !bool;
     };
     
     TypeException = function (expectedType, message) {
@@ -288,5 +287,6 @@
 
     // Make global
     this.ensure = ensure;
+    this.enforce = enforce;
     this.TypeException = TypeException;
 })();
