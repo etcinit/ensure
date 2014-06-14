@@ -3,7 +3,8 @@
     var ensure,
         enforce,
         base,
-        TypeException;
+        TypeException,
+        isNode;
     
     base = function () {};
     
@@ -190,6 +191,8 @@
     };
     
     base.prototype.response = function (bool) {
+        "use strict";
+        
         return bool;
     };
     
@@ -246,23 +249,31 @@
     ensure.not = Object.create(base.prototype);
     
     ensure.not.response = function (bool) {
+        "use strict";
+        
         return !bool;
     };
     
     enforce = Object.create(base.prototype);
     
     enforce.response = function (bool) {
+        "use strict";
+        
         if (!bool) {
             throw new TypeException(undefined, "Invalid type.");
         }
+        // return bool;
     };
     
     enforce.not = Object.create(base.prototype);
     
     enforce.not.response = function (bool) {
+        "use strict";
+        
         if (bool) {
             throw new TypeException(undefined, "Invalid type.");
         }
+        // return !bool;
     };
     
     TypeException = function (expectedType, message) {
@@ -278,7 +289,7 @@
     TypeException.prototype = new Error();
     TypeException.prototype.constructor = TypeException;
 
-    var isNode = false;
+    isNode = false;
 
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = ensure;
