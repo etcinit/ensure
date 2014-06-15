@@ -158,38 +158,6 @@
         return this.response(context instanceof constructor);
     };
     
-    /**
-     * Check if an object is defined, fail otherwise
-     *
-     * @param object
-     */
-    base.require = function (object) {
-        "use strict";
-    
-        if (ensure.isEmpty(object)) {
-            throw new Error('Expected a defined variable. Got null, undefined, or empty string');
-        }
-    };
-    
-    /**
-     * Check if a constructor was called with the "new" keyword
-     *
-     * Useful during development for preventing constructor functions messing up
-     * the global context when they are called without the new keyword
-     *
-     * This function will throw an error when your object is constructed without using new
-     *
-     * @param constructor
-     * @param context
-     */
-    base.requireIsNewThis = function (constructor, context) {
-        "use strict";
-    
-        if (!ensure.isNewThis(constructor, context)) {
-            throw new Error('Expected the function to be called as a constructor with the "new" keyword');
-        }
-    };
-    
     base.response = function (bool) {
         "use strict";
         

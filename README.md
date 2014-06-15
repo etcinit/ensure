@@ -8,7 +8,7 @@ A simple library for checking types in Javascript + extras
 
 Ensure is available as a global variable (or a module on Node):
 
-__ensure(object, type, soft = false)__
+__ensure.is(object, type, soft = false)__
 
 - __object:__ Is the object you are checking
 - __type:__ Is the type you are expecting It can be any "class" in JavaScript, such as `String`, `Error`, or `Boolean`.
@@ -22,12 +22,12 @@ To check if a variable is a string:
 ```js
 var hello = 'Hello World';
 
-ensure(hello, String, true);
+ensure.is(hello, String, true);
 >> true
 
 var notString = 1337;
 
-ensure(notString, String, true);
+ensure.is(notString, String, true);
 >> false
 ```
 
@@ -39,10 +39,10 @@ On the default mode:
 ```js
 var hello = 'Hello World';
 
-ensure(hello, String);
+ensure.is(hello, String);
 >> undefined
 
-ensure(90210, String);
+ensure.is(90210, String);
 >> TypeException: Invalid type: Expected String
 ```
 
@@ -62,7 +62,7 @@ bower install ensure.js
 3.- Use it!
 
 ```js
-console.log(ensure('It works!', String));
+console.log(ensure.is('It works!', String));
 ```
 
 ## On Node.js
@@ -82,7 +82,7 @@ var ensure = require('ensure.js');
 3.- Use it!
 
 ```js
-console.log(ensure('It works!', String));
+console.log(ensure.is('It works!', String));
 ```
 
 ## Supported types:
@@ -93,46 +93,46 @@ console.log(ensure('It works!', String));
 + Array
 + (Any object)
 
-## Extras:
+## Additional Methods:
 
-__require(object)__
-Throw an error if `object` is undefined, null or an empty string:
+__isEmpty(object)__
+Returns true if `object` is undefined, null or an empty string:
 ```js
 var hello;
 
-ensure.require(hello);
->> [Error]
+ensure.isEmpty(hello);
+>> true
 
 hello = '';
 
-ensure.require(hello);
->> [Error]
+ensure.isEmpty(hello);
+>> true
 
 hello = 'Hello World';
 
-ensure.require(hello); // This shouldn't do anything (which is good)
->> undefined
+ensure.isEmpty(hello);
+>> false
 ```
 
-__requireIsNewThis(constructor, context)__
-Throw an error if a constructor is called without `new`
+__isNewThis(constructor, context)__
+Return false if a constructor is called without `new`
 
 Useful for preventing development mistakes
 
 ```js
 var myObject = function () {
-    ensure.requireIsNewThis(myObject, this);
+    ensure.isNewThis(myObject, this);
 };
 
 var instance = new newObject(); // This should just create the instance normally
 >> undefined
 
-var instance = newObject(); // An error is thrown, new is missing
->> [Error]
+var instance = newObject(); // Returns false, new is missing
+>> false
 ```
 
 __isIn(object, array)__
-Check if object is in an array:
+Check if `object` is in an array:
 ```js
 ensure.isIn(object, array);
 ```
@@ -161,4 +161,89 @@ Check if a number is positive:
 ensure.isPositiveNumber(object);
 ```
 
-and a few more, just take a look at the source
+__isBoolean(object)__
+Check if `object` is a Boolean:
+```js
+ensure.isBoolean(object);
+```
+
+__isNumber(object)__
+Check if `object` is a Number:
+```js
+ensure.isNumber(object);
+```
+
+__isString(object)__
+Check if `object` is a String:
+```js
+ensure.isString(object);
+```
+
+__isArray(object)__
+Check if `object` is an Array:
+```js
+ensure.isArray(object);
+```
+
+### Enforce:
+
+Enforce has the same methods as ensure but throws an error instead of returning false.
+
+__enforce.isEmpty(object)__
+Throws an error if `object` is NOT undefined, null or an empty string:
+```js
+var hello;
+
+enforce.isEmpty(hello); // This shouldn't do anything (which is good)
+>> undefined
+
+hello = '';
+
+enforce.isEmpty(hello); // This shouldn't do anything
+>> undefined
+
+hello = 'Hello World';
+
+enforce.isEmpty(hello);
+>> [Error]
+```
+
+Also supports all of the additional methods listed above.
+
+### not:
+
+If you would like to check if an object is NOT a certain type you can use the not method.
+
+__enforce.not.isString(object)__
+Throws an error if `object` is of type String:
+```js
+var hello;
+
+enforce.not.isString(hello); // This shouldn't do anything (which is good)
+>> undefined
+
+hello = 'Hello World';
+
+enforce.not.isString(hello); 
+>> [Error]
+```
+
+__ensure.not.isInRange(object, min, max)__
+Check if a number is NOT within a range:
+```js
+ensure.not.isInRange(object, min, max);
+```
+
+Example:
+
+```js
+var hello = 'Hello';
+
+ensure.not.isInRange(hello.length, 0, 3);
+>> true
+
+ensure.not.isInRange(hello.length, 0, 6);
+>> false
+```
+
+Also supports all of the additional methods listed above.
