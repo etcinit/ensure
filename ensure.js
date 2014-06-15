@@ -1,12 +1,12 @@
 (function () {
     
-    var Base,
+    var base,
         ensure,
         enforce,
         isNode,
         TypeException;
     
-    Base = function () {};
+    base = {};
     
     /**
      * Check if object is undefined, null or an empty string
@@ -14,7 +14,7 @@
      * @param object
      * @returns {boolean}
      */
-    Base.prototype.isEmpty = function (object) {
+    base.isEmpty = function (object) {
         "use strict";
     
         return this.response((object === undefined || object === null || object === ''));
@@ -26,7 +26,7 @@
      * @param object
      * @returns {boolean}
      */
-    Base.prototype.isBoolean = function (object) {
+    base.isBoolean = function (object) {
         "use strict";
     
         return this.response((typeof object === "boolean"));
@@ -38,7 +38,7 @@
      * @param object
      * @returns {boolean}
      */
-    Base.prototype.isNumber = function (object) {
+    base.isNumber = function (object) {
         "use strict";
     
         // Exclude booleans
@@ -55,7 +55,7 @@
      * @param object
      * @returns {boolean}
      */
-    Base.prototype.isString = function (object) {
+    base.isString = function (object) {
         "use strict";
     
         // Check for when it is instantiated as an object
@@ -74,7 +74,7 @@
      * @param max
      * @returns {boolean}
      */
-    Base.prototype.isInRange = function (object, min, max) {
+    base.isInRange = function (object, min, max) {
         "use strict";
     
         if (!ensure.isEmpty(min)) {
@@ -98,7 +98,7 @@
      * @param object
      * @returns {boolean}
      */
-    Base.prototype.isPositiveNumber = function (object) {
+    base.isPositiveNumber = function (object) {
         "use strict";
     
         if (!ensure.isNumber(object)) {
@@ -119,7 +119,7 @@
      * @param haystack
      * @returns {boolean}
      */
-    Base.prototype.isIn = function (needle, haystack) {
+    base.isIn = function (needle, haystack) {
         "use strict";
     
         return this.response((haystack.indexOf(needle) >= 0));
@@ -131,7 +131,7 @@
      * @param object
      * @returns {boolean}
      */
-    Base.prototype.isArray = function (object) {
+    base.isArray = function (object) {
         "use strict";
     
         return this.response(Array.isArray(object));
@@ -146,7 +146,7 @@
      * @param constructor - The constructor function of the object
      * @param context - The this context (inside the constructor function)
      */
-    Base.prototype.isNewThis = function (constructor, context) {
+    base.isNewThis = function (constructor, context) {
         "use strict";
     
         // Extra check to see if it is the window/global object
@@ -163,7 +163,7 @@
      *
      * @param object
      */
-    Base.prototype.require = function (object) {
+    base.require = function (object) {
         "use strict";
     
         if (ensure.isEmpty(object)) {
@@ -182,7 +182,7 @@
      * @param constructor
      * @param context
      */
-    Base.prototype.requireIsNewThis = function (constructor, context) {
+    base.requireIsNewThis = function (constructor, context) {
         "use strict";
     
         if (!ensure.isNewThis(constructor, context)) {
@@ -190,13 +190,13 @@
         }
     };
     
-    Base.prototype.response = function (bool) {
+    base.response = function (bool) {
         "use strict";
         
         return bool;
     };
     
-    ensure = Object.create(Base.prototype);
+    ensure = Object.create(base);
     
     ensure.is = function (object, type, soft) {
         "use strict";
@@ -246,7 +246,7 @@
         return true;
     };
     
-    ensure.not = Object.create(Base.prototype);
+    ensure.not = Object.create(base);
     
     ensure.not.response = function (bool) {
         "use strict";
@@ -254,7 +254,7 @@
         return !bool;
     };
     
-    enforce = Object.create(Base.prototype);
+    enforce = Object.create(base);
     
     enforce.response = function (bool) {
         "use strict";
@@ -264,7 +264,7 @@
         }
     };
     
-    enforce.not = Object.create(Base.prototype);
+    enforce.not = Object.create(base);
     
     enforce.not.response = function (bool) {
         "use strict";
