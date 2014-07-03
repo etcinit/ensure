@@ -299,11 +299,11 @@ ensure.require = function (object) {
 };
 
 // Ensure that an object is an instance of a type
-ensure.is = function(object, type){
+ensure.is = function(object, type, name){
     "use strict";
 
     if(! (object instanceof type) ){
-        throw new Error("Expected an instance of " + type + " but got something else.");
+        throw new Error("Expected an instance " + name ? ("of " + name) : "of some class" + " but got something else.");
     }
 }
 
@@ -316,18 +316,24 @@ ensure.has = function(object, member){
     }
 }
 
-ensure.memberHasType = function(object, member, type, isInstanceType, instanceTypeName){
+ensure.memberHasType = function(object, member, type, name){
     "use strict";
 
     ensure.has(object, member);
+
+    var isInstanceType = false;
+
+    if(typeof type === Function){
+        isInstanceType = true;
+    }
 
     var predicate = false,
         message = '';
 
     if(isInstanceType){
         predicate = object[member] instanceof type;
-        if(instanceTypeName){
-            message = "Expected member " + member + " to be an instance of " + instanceTypeName + " but it isn't.";
+        if(name){
+            message = "Expected member " + member + " to be an instance of " + name + " but it isn't.";
         }else{
             message = "Expected member " + member + " to be an instance of some type, but it isn't";
         }
@@ -339,6 +345,7 @@ ensure.memberHasType = function(object, member, type, isInstanceType, instanceTy
     if(!predicate){
         throw new Error(message);
     }
+    return true;
 }
 
 ensure.hasFunction = function(object, member){
@@ -348,23 +355,38 @@ ensure.hasFunction = function(object, member){
 
 ensure.hasString = function(object, member){
     "use strict";
-    ensure.memberHasType(object, member, 'string');
+
+    if(ensure.memberHasType(object, member, 'string')){
+        return;
+    }
+
+    ensure.memberHasType(object, member, String, true, 'String');
 }
 
 ensure.hasNumber = function(object, member){
     "use strict";
-    ensure.memberHasType(object, member, 'number');
+
+    if(ensure.memberHasType(object, member, 'number')){
+        return;
+    }
+
+    ensure.memberHasType(object, member, Number, true, 'number');
 }
 
 ensure.hasObject = function(object, member){
     "use strict";
-    ensure.memberHasType(object, member, 'object');
+
+    if(ensure.memberHasType(object, member, 'object')){
+        return;
+    }
+
+    ensure.memberHasType(object, member, Object, true, 'object');
 }
 
-ensure.hasMemberWithInstance = function(object, member, instanceType, instanceTypeName){
+ensure.hasMemberWithInstance = function(object, member, instanceType, name){
     "use strict";
     
-    ensure.memberHasType(object, member, instanceType, true, instanceTypeName);
+    ensure.memberHasType(object, member, instanceType, name);
 }
 
 /**
