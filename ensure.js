@@ -303,7 +303,7 @@ ensure.is = function(object, type, name){
     "use strict";
 
     if(! (object instanceof type) ){
-        throw new Error("Expected an instance " + name ? ("of " + name) : "of some class" + " but got something else.");
+        throw new Error("Expected an instance " + (name ? ("of " + name) : "of some class") + " but got something else.");
     }
 }
 
