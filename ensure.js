@@ -38,7 +38,7 @@ ensure = function (object, type, soft) {
             throw new TypeException(Number);
         }
     } else {
-        if (!object instanceof type) {
+        if (! (object instanceof type) ) {
             if (soft) {
                 return false;
             }
@@ -297,6 +297,75 @@ ensure.require = function (object) {
         throw new Error('Expected a defined variable. Got null, undefined, or empty string');
     }
 };
+
+// Ensure that an object is an instance of a type
+ensure.is = function(object, type){
+    "use strict";
+
+    if(! (object instanceof type) ){
+        throw new Error("Expected an instance of " + type + " but got something else.");
+    }
+}
+
+// Ensure that an object has a specific member.
+ensure.has = function(object, member){
+    "use strict";
+
+    if(!object || !(object[member])){
+        throw new Error("Expected object to have member variable " + member + " but it is does not.");
+    }
+}
+
+ensure.memberHasType = function(object, member, type, isInstanceType, instanceTypeName){
+    "use strict";
+
+    ensure.has(object, member);
+
+    var predicate = false,
+        message = '';
+
+    if(isInstanceType){
+        predicate = object[member] instanceof type;
+        if(instanceTypeName){
+            message = "Expected member " + member + " to be an instance of " + instanceTypeName + " but it isn't.";
+        }else{
+            message = "Expected member " + member + " to be an instance of some type, but it isn't";
+        }
+    }else{
+        predicate = typeof (object[member]) === type;
+        message = "Expected member " + member + " to have type " + type.name + " but it doesn't."
+    }
+
+    if(!predicate){
+        throw new Error(message);
+    }
+}
+
+ensure.hasFunction = function(object, member){
+    "use strict";
+    ensure.memberHasType(object, member, Function);
+}
+
+ensure.hasString = function(object, member){
+    "use strict";
+    ensure.memberHasType(object, member, 'string');
+}
+
+ensure.hasNumber = function(object, member){
+    "use strict";
+    ensure.memberHasType(object, member, 'number');
+}
+
+ensure.hasObject = function(object, member){
+    "use strict";
+    ensure.memberHasType(object, member, 'object');
+}
+
+ensure.hasMemberWithInstance = function(object, member, instanceType, instanceTypeName){
+    "use strict";
+    
+    ensure.memberHasType(object, member, instanceType, true, instanceTypeName);
+}
 
 /**
  * Check if a constructor was called with the "new" keyword
