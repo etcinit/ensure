@@ -38,7 +38,7 @@ ensure = function (object, type, soft) {
             throw new TypeException(Number);
         }
     } else {
-        if (! (object instanceof type) ) {
+        if (!object instanceof type) {
             if (soft) {
                 return false;
             }
@@ -298,96 +298,77 @@ ensure.require = function (object) {
     }
 };
 
-// Ensure that an object is an instance of a type
-ensure.is = function(object, type, name){
+/**
+ * Check if an object has a certain property defined. (Type check is optional)
+ *
+ * @param object
+ * @param property
+ * @param [type]
+ */
+ensure.has = function (object, property, type) {
     "use strict";
 
-    if(! (object instanceof type) ){
-        throw new Error("Expected an instance " + (name ? ("of " + name) : "of some class") + " but got something else.");
+    if (object === undefined) {
+        throw new Error('Expected object to have property "' + property + '" but the object is undefined');
     }
-}
 
-// Ensure that an object has a specific member.
-ensure.has = function(object, member){
+    if (object[property] === undefined) {
+        throw new Error('Expected object to have property "' + property + '" but it is undefined');
+    }
+
+    // Check type if provided
+    if (type !== undefined) {
+        ensure(object[property], type);
+    }
+};
+
+/**
+ * Check if an object has a certain Function property defined
+ *
+ * @param object
+ * @param property
+ */
+ensure.hasFunction = function (object, property) {
     "use strict";
 
-    if(!object || !(object[member])){
-        throw new Error("Expected object to have member variable " + member + " but it is does not.");
-    }
-}
+    ensure.has(object, property, Function);
+};
 
-ensure.memberHasType = function(object, member, type, name){
+/**
+ * Check if an object has a certain String property defined
+ *
+ * @param object
+ * @param property
+ */
+ensure.hasString = function (object, property) {
     "use strict";
 
-    ensure.has(object, member);
+    ensure.has(object, property, String);
+};
 
-    var isInstanceType = false;
-
-    if(typeof type === Function){
-        isInstanceType = true;
-    }
-
-    var predicate = false,
-        message = '';
-
-    if(isInstanceType){
-        predicate = object[member] instanceof type;
-        if(name){
-            message = "Expected member " + member + " to be an instance of " + name + " but it isn't.";
-        }else{
-            message = "Expected member " + member + " to be an instance of some type, but it isn't";
-        }
-    }else{
-        predicate = typeof (object[member]) === type;
-        message = "Expected member " + member + " to have type " + type.name + " but it doesn't."
-    }
-
-    if(!predicate){
-        throw new Error(message);
-    }
-    return true;
-}
-
-ensure.hasFunction = function(object, member){
-    "use strict";
-    ensure.memberHasType(object, member, Function);
-}
-
-ensure.hasString = function(object, member){
+/**
+ * Check if an object has a certain Number property defined
+ *
+ * @param object
+ * @param property
+ */
+ensure.hasNumber = function (object, property) {
     "use strict";
 
-    if(ensure.memberHasType(object, member, 'string')){
-        return;
-    }
+    ensure.has(object, property, Number);
+};
 
-    ensure.memberHasType(object, member, String, true, 'String');
-}
-
-ensure.hasNumber = function(object, member){
+/**
+ * Check if an object has a certain Object property defined
+ *
+ * @param object
+ * @param property
+ */
+ensure.hasObject = function (object, property) {
     "use strict";
 
-    if(ensure.memberHasType(object, member, 'number')){
-        return;
-    }
-
-    ensure.memberHasType(object, member, Number, true, 'number');
-}
-
-ensure.hasObject = function(object, member){
-    "use strict";
-
-    if(ensure.memberHasType(object, member, 'object')){
-        return;
-    }
-
-    ensure.memberHasType(object, member, Object, true, 'object');
-}
-
-ensure.hasMemberWithInstance = function(object, member, instanceType, name){
-    "use strict";
-    
-    ensure.memberHasType(object, member, instanceType, name);
-}
+    ensure.has(object, property, Object);
+};
 
 /**
  * Check if a constructor was called with the "new" keyword
