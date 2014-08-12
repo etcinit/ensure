@@ -1,4 +1,4 @@
-var ensure = require('../ensure.js');
+var ensure = require('../../ensure.js');
 
 // Create a test object
 var myObj = {

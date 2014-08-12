@@ -41,14 +41,6 @@ root = this;
 
                 throw new ensure.TypeException(Number);
             }
-        } else if (type === Object) {
-            if (ensure.isNotObject(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Object);
-            }
         } else {
             if (!object instanceof type) {
                 if (soft) {
@@ -247,26 +239,6 @@ root = this;
     };
 
     /**
-     * Check if the object is an object (not null or undefined)
-     *
-     * @param object
-     * @returns {boolean}
-     */
-    ensure.isObject = function (object) {
-        return !(object === null || object === undefined);
-    };
-
-    /**
-     * Check if the object is null or undefined (not an object)
-     *
-     * @param object
-     * @returns {boolean}
-     */
-    ensure.isNotObject = function (object) {
-        return !ensure.isObject(object);
-    };
-
-    /**
      * Check whether or not the specified object is the root (window, global) object
      *
      * Useful for checking if a constructor function is being called without the new
@@ -383,88 +355,4 @@ root = this;
     }
 
     root.ensure = ensure;
-})();
-(function () {
-    "use strict";
-
-    var EnsureRecord,
-        EnsureRecordInstance;
-
-    EnsureRecord = function (spec) {
-        var record,
-            key;
-
-        // Make sure spec is an object
-        ensure(spec, Object);
-
-        record = function (values) {
-            var recordProperties = {};
-
-            // Make sure values is an object
-            ensure(values, Object);
-
-            // First, define properties
-            for (key in spec) {
-                var keyClone = new String(key);
-
-                if (spec.hasOwnProperty(key)) {
-                    Object.defineProperty(
-                        this,
-                        keyClone,
-                        {
-                            enumerable: true,
-                            get: function () {
-                                return recordProperties[keyClone];
-                            },
-                            set: function (value) {
-                                ensure(value, spec[key]);
-
-                                recordProperties[keyClone] = value;
-                            }
-                        }
-                    )
-                }
-            }
-
-            // Then try to set values
-            for (key in values) {
-                if (values.hasOwnProperty(key)) {
-                    this[key] = values[key];
-                }
-            }
-
-            // Freeze the instance
-            Object.freeze(this);
-        };
-
-        record.prototype = new EnsureRecordInstance();
-
-        return Object.freeze(record);
-    };
-
-    EnsureRecordInstance = function () {
-        //Object.freeze(this);
-    };
-
-    ensure.EnsureRecord = EnsureRecord;
-    ensure.EnsureRecordInstance = EnsureRecordInstance;
-})();
-(function () {
-    "use strict";
-
-    var TypeException;
-
-    TypeException = function (expectedType, message) {
-        this.name = 'TypeException';
-
-        this.expectedType = expectedType;
-
-        this.message = message || 'Invalid type: Expected ' + expectedType.name;
-    };
-
-    TypeException.prototype = new Error();
-    TypeException.prototype.constructor = TypeException;
-
-    ensure.TypeException = TypeException;
-    root.TypeException = TypeException;
 })();

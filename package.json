@@ -4,7 +4,7 @@
   "description": "Simple JS type-checking + extras",
   "main": "ensure.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/ test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/eduard44/ensure",
   "devDependencies": {
-    "nodeunit": "^0.9.0"
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "nodeunit": "^0.9.0",
+    "should": "^4.0.4"
   }
 }
