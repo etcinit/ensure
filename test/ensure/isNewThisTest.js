@@ -4,6 +4,14 @@ var ensure = require('../../ensure');
 
 describe('ensure', function () {
     describe('#isNewThis', function () {
+        it('should return false if the function is called in the global scope', function () {
+            var myObject = function () {
+                ensure.isNewThis(myObject, this).should.be.false;
+            };
+
+            myObject.bind(root)();
+        });
+
         it('should return true if the constructor has a new context', function () {
             var myObject = function () {
                 ensure.isNewThis(myObject, this).should.be.true;

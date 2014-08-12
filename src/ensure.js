@@ -41,8 +41,16 @@ root = this;
 
                 throw new ensure.TypeException(Number);
             }
+        } else if (type === Object) {
+            if (ensure.isNotObject(object)) {
+                if (soft) {
+                    return false;
+                }
+
+                throw new ensure.TypeException(Object);
+            }
         } else {
-            if (!object instanceof type) {
+            if ((object instanceof type) === false) {
                 if (soft) {
                     return false;
                 }
@@ -236,6 +244,26 @@ root = this;
      */
     ensure.isNotArray = function (object) {
         return !this.isArray(object);
+    };
+
+    /**
+     * Check if it is an object (not null or undefined)
+     *
+     * @param object
+     * @returns {boolean}
+     */
+    ensure.isObject = function (object) {
+        return !(object === null || object === undefined);
+    };
+
+    /**
+     * Check if it is null or undefined (not an object)
+     *
+     * @param object
+     * @returns {boolean}
+     */
+    ensure.isNotObject = function (object) {
+        return !ensure.isObject(object);
     };
 
     /**

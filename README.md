@@ -93,7 +93,68 @@ console.log(ensure('It works!', String));
 + Array
 + (Any object)
 
-## Extras:
+## Record Types
+
+Languages like C++, Hack and Haskell have nice syntax for data types that hold
+information. You might know them as Structs or Records. Ensure.js provides an
+emulation of this format. I say emulation because it is not analyzed
+statically and might have some behavior differences. However, it can be useful
+for adding some validation to certain objects in your application. Instead of
+blindly assuming that a certain variable of an object is of a certain type
+you can use Ensure Records which automatically perform these checks for you.
+
+Please note that if performance is important, it is always faster to just use
+regular objects.
+
+__EnsureRecord(spec)__
+
+*spec*:
+The spec is an object specifying the types of each variable in the record, where
+the key is the name of the property and the value the type to expect.
+
+__EnsureRecordType(values)__
+
+*values*:
+The values being applied to the instance being instantiated. Will throw an error if
+the types do not match the spec
+
+### Example:
+
+```js
+var ensure = require('ensure'),
+    EnsureRecord = ensure.EnsureRecord;
+
+// First, we create our person type
+var Person = new EnsureRecord({
+        firstName: String,
+        lastName: String,
+        age: Number
+    });
+
+// Then we create an instance by providing its values
+var bob = new Person({
+        firstName: "Bob",
+        lastName: "Lulz",
+        age: 20
+    });
+
+console.log(bob.firstName)
+>>> "Bob"
+
+// Note that if we try to brake the spec, we get an error
+var alex = new Person({
+        firstName: "Bob",
+        lastName: "Lulz",
+        age: "Old"
+    });
+>>> [TypeException]
+
+// Same with setters:
+bob.name = [1, 5, 7];
+>>> [TypeException]
+```
+
+## Other Extras:
 
 __require(object)__
 Throw an error if `object` is undefined, null or an empty string:

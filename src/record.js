@@ -42,7 +42,7 @@
 
             // Then try to set values
             for (key in values) {
-                if (values.hasOwnProperty(key)) {
+                if (spec.hasOwnProperty(key) && values.hasOwnProperty(key)) {
                     this[key] = values[key];
                 }
             }

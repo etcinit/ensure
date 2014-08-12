@@ -30,13 +30,9 @@ describe('EnsureRecord', function () {
     it('should throw an error if the spec is invalid', function () {
         var thrown = false;
 
-        try {
+        (function () {
             var testType = new EnsureRecord();
-        } catch (error) {
-            thrown = true;
-        }
-
-        thrown.should.be.true;
+        }).should.throw();
 
         try {
             thrown = false;
@@ -117,5 +113,33 @@ describe('EnsureRecord', function () {
         }
 
         thrown.should.be.false;
+    });
+
+    it('getter should return value set by setter', function () {
+        var testType = new EnsureRecord({ name: String }),
+
+            thrown = false,
+            instance = new testType({ name: "Bob" });
+
+        instance.name = "Bobby";
+
+        instance.name.should.equal("Bobby");
+    });
+
+    it('should ignore prototype inheritance in spec', function () {
+        var specBase = { name: String },
+            spec = { phone: Number },
+            testType,
+            instance;
+
+        spec.prototype = specBase;
+
+        testType = EnsureRecord(spec);
+
+        instance = new testType({ name: "Bob", phone: 404 });
+
+        instance.hasOwnProperty('name').should.be.false;
+
+        instance.hasOwnProperty('phone').should.be.true;
     });
 });

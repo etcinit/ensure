@@ -27,6 +27,12 @@ describe('ensure', function () {
                 ensure.has(myObj, 'myFictionalString');
             }).should.throw();
         });
+
+        it('should throw an error if the object is undefined', function () {
+            (function () {
+                ensure.has(undefined, 'myFictionalString');
+            }).should.throw();
+        });
     });
 
     describe('#hasFunction', function () {

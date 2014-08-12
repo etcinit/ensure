@@ -50,7 +50,7 @@ root = this;
                 throw new ensure.TypeException(Object);
             }
         } else {
-            if (!object instanceof type) {
+            if ((object instanceof type) === false) {
                 if (soft) {
                     return false;
                 }
@@ -247,7 +247,7 @@ root = this;
     };
 
     /**
-     * Check if the object is an object (not null or undefined)
+     * Check if it is an object (not null or undefined)
      *
      * @param object
      * @returns {boolean}
@@ -257,7 +257,7 @@ root = this;
     };
 
     /**
-     * Check if the object is null or undefined (not an object)
+     * Check if it is null or undefined (not an object)
      *
      * @param object
      * @returns {boolean}
@@ -428,7 +428,7 @@ root = this;
 
             // Then try to set values
             for (key in values) {
-                if (values.hasOwnProperty(key)) {
+                if (spec.hasOwnProperty(key) && values.hasOwnProperty(key)) {
                     this[key] = values[key];
                 }
             }
