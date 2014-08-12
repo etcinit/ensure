@@ -141,6 +141,10 @@ describe('EnsureRecord', function () {
         instance.hasOwnProperty('name').should.be.false;
 
         instance.hasOwnProperty('phone').should.be.true;
+
+        (function () {
+            instance.name = 'Bobby';
+        }).should.throw();
     });
 
     it('should work with multiple record properties', function () {

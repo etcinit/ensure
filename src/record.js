@@ -12,18 +12,23 @@
         ensure(spec, Object);
 
         record = function (values) {
-            var recordProperties = {};
+            var recordProperties = {},
+                self = this;
 
             // Make sure values is an object
             ensure(values, Object);
 
             // First, define properties
-            for (key in spec) {
-                var keyClone = new String(key);
+            Object.keys(spec).forEach(function (key) {
+                if (key === 'prototype') {
+                    return;
+                }
+
+                var keyClone = key.substr();
 
                 if (spec.hasOwnProperty(key)) {
                     Object.defineProperty(
-                        this,
+                        self,
                         keyClone,
                         {
                             enumerable: true,
@@ -38,7 +43,7 @@
                         }
                     )
                 }
-            }
+            });
 
             // Then try to set values
             for (key in values) {

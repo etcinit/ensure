@@ -422,10 +422,6 @@ root = this;
                                 return recordProperties[keyClone];
                             },
                             set: function (value) {
-                                if (!spec.hasOwnProperty(keyClone) && key !== 'prototype') {
-                                    throw new ensure.TypeException();
-                                }
-
                                 ensure(value, spec[keyClone]);
 
                                 recordProperties[keyClone] = value;
