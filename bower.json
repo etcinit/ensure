@@ -1,7 +1,7 @@
 {
   "name": "ensure.js",
   "main": "ensure.js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/eduard44/ensure",
   "authors": [
     "Eduardo Trujillo <ed@chromabits.com>"
