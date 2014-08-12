@@ -31,7 +31,7 @@
                                 return recordProperties[keyClone];
                             },
                             set: function (value) {
-                                ensure(value, spec[key]);
+                                ensure(value, spec[keyClone]);
 
                                 recordProperties[keyClone] = value;
                             }

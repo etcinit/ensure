@@ -142,4 +142,34 @@ describe('EnsureRecord', function () {
 
         instance.hasOwnProperty('phone').should.be.true;
     });
+
+    it('should work with multiple record properties', function () {
+        var Person = new EnsureRecord({ firstName: String, lastName: String, age: Number }),
+
+            instance = new Person({ firstName: "Bob", lastName: "Lulz", age: 20 });
+
+        (function () {
+            instance.firstName = 30;
+        }).should.throw();
+
+        (function () {
+            instance.firstName = 'alex';
+        }).should.not.throw();
+
+        (function () {
+            instance.lastName = 50;
+        }).should.throw();
+
+        (function () {
+            instance.lastName = 'bob';
+        }).should.not.throw();
+
+        (function () {
+            instance.age = {};
+        }).should.throw();
+
+        (function () {
+            instance.age = 45;
+        }).should.not.throw();
+    });
 });
