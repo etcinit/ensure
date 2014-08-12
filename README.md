@@ -223,3 +223,28 @@ ensure.isPositiveNumber(object);
 ```
 
 and a few more, just take a look at the source
+
+## Development
+
+To hack on Ensure.js, you need Node.js 0.10+. To setup a dev environment, run the following:
+
+1.- Install grunt:
+`npm install -g grunt`
+
+2.- Clone repo:
+`git clone git@github.com:eduard44/ensure.git`
+
+3.- cd to repo:
+`cd ensure`
+
+4.- Install dependencies for development:
+`npm install` (in the project root)
+
+5.- Start grunt in watch mode:
+`grunt`. This will continuously rebuild ensure.js on every change in `/src`
+
+6.- You can run tests with:
+`npm test`
+
+7.- You can check code coverage with:
+`grunt coverage`
