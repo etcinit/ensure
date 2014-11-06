@@ -6,6 +6,14 @@ A simple library for checking types in Javascript + extras
 
 [![NPM](https://nodei.co/npm/ensure.js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ensure.js/)
 
+## News
+
+### 0.5.0
+
+- Shield (Beta): Protect functions by adding a wrapper that checks function parameters and return values
+- Documentation
+- [Breaking] __has()__ no longer throws exceptions by default, it behaves like __ensure()__ now with a `soft` parameter
+
 ## Usage
 
 Ensure is available as a global variable (or a module on Node):

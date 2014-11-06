@@ -165,8 +165,8 @@ root = this;
     /**
      * Check if object is not a string
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not a string
      */
     ensure.isNotString = function (object) {
         return !this.isString(object);
@@ -175,10 +175,10 @@ root = this;
     /**
      * Check if object is within a numerical range
      *
-     * @param object
-     * @param min
-     * @param max
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @param min {Number} - Start number of the range
+     * @param max {Number} - End number of the range
+     * @returns {boolean} True if the object is within the numerical range
      */
     ensure.isInRange = function (object, min, max) {
         if (!this.isEmpty(min)) {
@@ -199,10 +199,10 @@ root = this;
     /**
      * Check if object is not within a numerical range
      *
-     * @param object
-     * @param min
-     * @param max
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @param min {Number} - Start number of the range
+     * @param max {Number} - End number of the range
+     * @returns {boolean} True if the object is not within the numerical range
      */
     ensure.isNotInRange = function (object, min, max) {
         return !this.isInRange(object, min, max);
@@ -211,8 +211,8 @@ root = this;
     /**
      * Check if object is a positive number
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is a positive number
      */
     ensure.isPositiveNumber = function (object) {
         if (!this.isNumber(object)) {
@@ -229,8 +229,8 @@ root = this;
     /**
      * Check if object is not a positive number
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not a positive number
      */
     ensure.isNotPositiveNumber = function (object) {
         return !this.isPositiveNumber(object);
@@ -239,20 +239,22 @@ root = this;
     /**
      * Check if the needle is in the haystack (item in array)
      *
-     * @param needle
-     * @param haystack
-     * @returns {boolean}
+     * @param needle {*} - Element we are looking for
+     * @param haystack {Array} - Array to look in
+     * @returns {boolean} True if the element is in the array
      */
     ensure.isIn = function (needle, haystack) {
+        ensure(haystack, Array);
+
         return (haystack.indexOf(needle) >= 0);
     };
 
     /**
      * Check if the needle is not in the haystack (item in array)
      *
-     * @param needle
-     * @param haystack
-     * @returns {boolean}
+     * @param needle {*} - Element we are looking for
+     * @param haystack {Array} - Array to look in
+     * @returns {boolean} True if the element is not in the array
      */
     ensure.isNotIn = function (needle, haystack) {
         return !ensure.isIn(needle, haystack);
@@ -261,8 +263,8 @@ root = this;
     /**
      * Check if object is an array
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is an array
      */
     ensure.isArray = function (object) {
         return Array.isArray(object);
@@ -271,8 +273,8 @@ root = this;
     /**
      * Check if object is not an array
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not an array
      */
     ensure.isNotArray = function (object) {
         return !this.isArray(object);
@@ -281,8 +283,8 @@ root = this;
     /**
      * Check if it is an object
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is an object
      */
     ensure.isObject = function (object) {
         return object === Object(object);
@@ -291,8 +293,8 @@ root = this;
     /**
      * Check if it is not an object
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not an object
      */
     ensure.isNotObject = function (object) {
         return !ensure.isObject(object);
@@ -304,8 +306,8 @@ root = this;
      * Useful for checking if a constructor function is being called without the new
      * keyword.
      *
-     * @param constructor - The constructor function of the object
-     * @param context - The this context (inside the constructor function)
+     * @param constructor {Function} - The constructor function of the object
+     * @param context {Object} - The this context (inside the constructor function)
      */
     ensure.isNewThis = function (constructor, context) {
         // Extra check to see if it is the window/global object
@@ -335,23 +337,39 @@ root = this;
     /**
      * Check if an object has a certain property defined. (Type check is optional)
      *
-     * @param object
-     * @param property
-     * @param [type]
+     * @param object {Object} - Object to be checked
+     * @param property {string} - Property name
+     * @param [type] {*} - Type to be checked
+     * @param [soft=true] {boolean} If true, exceptions will not be thrown
      */
-    ensure.has = function (object, property, type) {
+    ensure.has = function (object, property, type, soft) {
+        // Default value for soft
+        if (ensure.isEmpty(soft)) {
+            soft = true;
+        }
+
         if (object === undefined) {
+            if (soft) {
+                return false;
+            }
+
             throw new Error('Expected object to have property "' + property + '" but the object is undefined');
         }
 
         if (object[property] === undefined) {
+            if (soft) {
+                return false;
+            }
+
             throw new Error('Expected object to have property "' + property + '" but it is undefined');
         }
 
         // Check type if provided
         if (type !== undefined) {
-            ensure(object[property], type);
+            return ensure(object[property], type, soft);
         }
+
+        return true;
     };
 
     /**
