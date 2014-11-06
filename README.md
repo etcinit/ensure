@@ -4,6 +4,8 @@
 
 A simple library for checking types in Javascript + extras
 
+[![NPM](https://nodei.co/npm/ensure.js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ensure.js/)
+
 ## Usage
 
 Ensure is available as a global variable (or a module on Node):

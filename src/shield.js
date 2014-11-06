@@ -7,10 +7,12 @@
      * Wrap around a function and perform type checks
      *
      * @param argumentSpec
-     * @param returnType
-     * @param innerFunction
-     * @param [thisContext]
+     * @param returnType {*} - Type that the function should return
+     * @param innerFunction {Function} - Function to wrap around
+     * @param [thisContext] {Object} - `this` context to use for the innerFunction
      * @returns {Function}
+     *
+     * @memberof ensure
      */
     shield = function (argumentSpec, returnType, innerFunction, thisContext) {
         ensure(argumentSpec, Array);

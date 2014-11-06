@@ -1,3 +1,7 @@
+/**
+ * @name Ensure
+ * @namespace Hold all functionality
+ */
 var ensure,
     TypeException,
     root;
@@ -8,6 +12,14 @@ root = this;
 (function () {
     "use strict";
 
+    /**
+     * Ensure function
+     *
+     * @param object
+     * @param type
+     * @param soft
+     * @returns {boolean}
+     */
     ensure = function (object, type, soft) {
         if (type === String) {
             if (ensure.isNotString(object)) {

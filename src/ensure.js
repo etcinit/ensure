@@ -1,3 +1,7 @@
+/**
+ * @name ensure
+ * @namespace ensure
+ */
 var ensure,
     TypeException,
     root;
@@ -8,6 +12,22 @@ root = this;
 (function () {
     "use strict";
 
+    /**
+     * Ensure function
+     *
+     * Checks the type of an object matches an expected type
+     *
+     * A TypeException is thrown if the type is not matched
+     *
+     * If soft is set to true, a boolean is returned instead
+     *
+     * @param object {*} - Object to be checked
+     * @param type {Function} - Type to compare the object to
+     * @param soft {boolean} - If set to false, an exception is thrown if the type check fails
+     * @throws {ensure.TypeException}
+     * @lends ensure
+     * @returns {boolean}
+     */
     ensure = function (object, type, soft) {
         if (type === String) {
             if (ensure.isNotString(object)) {
@@ -65,8 +85,8 @@ root = this;
     /**
      * Check if object is undefined, null or an empty string
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is null, undefined or an empty string
      */
     ensure.isEmpty = function (object) {
         return (object === undefined || object === null || object === '');
@@ -75,8 +95,8 @@ root = this;
     /**
      * Check if the object is not undefined, null, or an empty string
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not null, undefined or an empty string
      */
     ensure.isNotEmpty = function (object) {
         return !this.isEmpty(object);
@@ -85,8 +105,8 @@ root = this;
     /**
      * Check if the object is a boolean value
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is a boolean value
      */
     ensure.isBoolean = function (object) {
         return (typeof object === "boolean");
@@ -95,7 +115,8 @@ root = this;
     /**
      * Check if the object is not a boolean value
      *
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not a boolean value
      */
     ensure.isNotBoolean = function (object) {
         return !this.isBoolean(object);
@@ -104,8 +125,8 @@ root = this;
     /**
      * Check if object is a number
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is a numerical value
      */
     ensure.isNumber = function (object) {
         // Exclude booleans
@@ -119,8 +140,8 @@ root = this;
     /**
      * Check if object is not a number
      *
-     * @param object
-     * @returns {*}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is not a numeric value
      */
     ensure.isNotNumber = function (object) {
         return !this.isNumber(object);
@@ -129,8 +150,8 @@ root = this;
     /**
      * Check if object is a string
      *
-     * @param object
-     * @returns {boolean}
+     * @param object {*} - Object to be checked
+     * @returns {boolean} True if the object is a string
      */
     ensure.isString = function (object) {
         // Check for when it is instantiated as an object
@@ -227,6 +248,17 @@ root = this;
     };
 
     /**
+     * Check if the needle is not in the haystack (item in array)
+     *
+     * @param needle
+     * @param haystack
+     * @returns {boolean}
+     */
+    ensure.isNotIn = function (needle, haystack) {
+        return !ensure.isIn(needle, haystack);
+    };
+
+    /**
      * Check if object is an array
      *
      * @param object
@@ -247,17 +279,17 @@ root = this;
     };
 
     /**
-     * Check if it is an object (not null or undefined)
+     * Check if it is an object
      *
      * @param object
      * @returns {boolean}
      */
     ensure.isObject = function (object) {
-        return !(object === null || object === undefined);
+        return object === Object(object);
     };
 
     /**
-     * Check if it is null or undefined (not an object)
+     * Check if it is not an object
      *
      * @param object
      * @returns {boolean}
@@ -288,7 +320,11 @@ root = this;
     /**
      * Check if an object is defined, fail otherwise
      *
-     * @param object
+     * Checks if the object provided is null, undefined or an empty string
+     * If it is, an exception is thrown
+     *
+     * @param object {*} - Object to check
+     * @throws {Error} Thrown when the object is null, undefined or an empty string
      */
     ensure.require = function (object) {
         if (ensure.isEmpty(object)) {
@@ -351,8 +387,8 @@ root = this;
     /**
      * Check if an object has a certain Object property defined
      *
-     * @param object
-     * @param property
+     * @param object {Object}
+     * @param property {string}
      */
     ensure.hasObject = function (object, property) {
         ensure.has(object, property, Object);
@@ -366,8 +402,8 @@ root = this;
      *
      * This function will throw an error when your object is constructed without using new
      *
-     * @param constructor
-     * @param context
+     * @param constructor {Function} - Constructor function to protect
+     * @param context {Object} - `this` context of the object
      */
     ensure.requireIsNewThis = function (constructor, context) {
         if (!ensure.isNewThis(constructor, context)) {

@@ -4,6 +4,16 @@
     var EnsureRecord,
         EnsureRecordInstance;
 
+    /**
+     * Ensure Record
+     *
+     * Build an Ensure record object
+     *
+     * @param spec - Specification object
+     * @class
+     * @constructor
+     * @memberof ensure
+     */
     EnsureRecord = function (spec) {
         var record,
             key;
@@ -61,6 +71,13 @@
         return Object.freeze(record);
     };
 
+    /**
+     * Ensure Record Instance
+     *
+     * @constructor
+     * @class
+     * @memberof ensure
+     */
     EnsureRecordInstance = function () {
         //Object.freeze(this);
     };
