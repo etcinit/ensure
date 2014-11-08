@@ -6,13 +6,32 @@
     /**
      * Wrap around a function and perform type checks
      *
-     * @param argumentSpec
+     * @param argumentSpec {Array} - Array of the types of each argument in the function, in the same order
      * @param returnType {*} - Type that the function should return
      * @param innerFunction {Function} - Function to wrap around
      * @param [thisContext] {Object} - `this` context to use for the innerFunction
      * @returns {Function}
      *
      * @memberof ensure
+     *
+     * @example
+     * // First we create our shielded function
+     * var myShieldFunction = ensure.shield([Boolean, Array], Number, function (arg1, arg2) {
+     *     if (arg1) {
+     *         return {};
+     *     }
+     *
+     *     return 1337;
+     * });
+     *
+     * // This works fine
+     * myShieldFunction(false, []);
+     *
+     * // This throws an error
+     * myShieldFunction([], []);
+     *
+     * // This also throws an error since the return value is not a number
+     * myShieldFunction(true, []);
      */
     shield = function (argumentSpec, returnType, innerFunction, thisContext) {
         ensure(argumentSpec, Array);
