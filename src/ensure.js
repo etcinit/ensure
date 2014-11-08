@@ -3,6 +3,7 @@
  * @namespace ensure
  */
 var ensure,
+    ensureFunction,
     TypeException,
     root;
 
@@ -19,16 +20,41 @@ root = this;
      *
      * A TypeException is thrown if the type is not matched
      *
-     * If soft is set to true, a boolean is returned instead
+     * If soft is set to `true`, a boolean is returned instead
+     * Additionally, if soft is explicitly set to `false`, the {@link ensure.enforce}
+     * variable is ignored and a type check will be performed and it may
+     * throw an exception.
+     *
+     * When {@link ensure.enforce} is `false`, type checks are skipped and returns `true`
      *
      * @param object {*} - Object to be checked
      * @param type {Function} - Type to compare the object to
-     * @param soft {boolean} - If set to false, an exception is thrown if the type check fails
-     * @throws {ensure.TypeException}
-     * @lends ensure
+     * @param [soft=false] {boolean} - If set to false, an exception is thrown if the type check fails
+     * @throws {ensure.TypeException} If there is a type mismatch
+     *
+     * @example
+     * // Returns true
+     * ensure('hi', String);
+     *
+     * @example
+     * // Returns false
+     * ensure('hi', Number, false);
+     *
+     * @example
+     * // Throws TypeException
+     * ensure('hi', Boolean);
+     *
+     * @see {@link ensure.enforce} for more information on production-mode
+     *
      * @returns {boolean}
      */
-    ensure = function (object, type, soft) {
+    ensureFunction = function (object, type, soft) {
+        // If enforce mode is off, we skip type checks
+        // However, this can be overridden by setting soft to false
+        if (ensure.enforce === false && soft !== false) {
+            return true;
+        }
+
         if (type === String) {
             if (ensure.isNotString(object)) {
                 if (soft) {
@@ -81,6 +107,22 @@ root = this;
 
         return true;
     };
+
+    // Set the ensure function
+    ensure = ensureFunction;
+
+    /**
+     * If set to true, ensure will throw exceptions
+     *
+     * Enforce mode is useful for development since you
+     * can check for problems in your code.
+     * On production, you may disable type checks to increase
+     * the performance of your application
+     *
+     * @type {boolean}
+     * @default
+     */
+    ensure.enforce = true;
 
     /**
      * Check if object is undefined, null or an empty string
@@ -244,7 +286,7 @@ root = this;
      * @returns {boolean} True if the element is in the array
      */
     ensure.isIn = function (needle, haystack) {
-        ensure(haystack, Array);
+        ensure(haystack, Array, false);
 
         return (haystack.indexOf(needle) >= 0);
     };
@@ -341,6 +383,8 @@ root = this;
      * @param property {string} - Property name
      * @param [type] {*} - Type to be checked
      * @param [soft=true] {boolean} If true, exceptions will not be thrown
+     * @throws {Error} If soft mode is false and the object does not have the property
+     * @returns {boolean} Whether the object has the property (and matches the expected type)
      */
     ensure.has = function (object, property, type, soft) {
         // Default value for soft
@@ -375,41 +419,52 @@ root = this;
     /**
      * Check if an object has a certain Function property defined
      *
-     * @param object
-     * @param property
+     * @param object {Object} - Object to be checked
+     * @param property {string} - Property to be checked
+     * @param [soft=true] {boolean} If true, exceptions will not be thrown
+     * @throws {Error} If soft mode is false and the object does not have the property
+     * @returns {boolean} Whether the object has the property (and matches the expected type)
      */
-    ensure.hasFunction = function (object, property) {
-        ensure.has(object, property, Function);
+    ensure.hasFunction = function (object, property, soft) {
+        return ensure.has(object, property, Function, soft);
     };
 
     /**
      * Check if an object has a certain String property defined
      *
-     * @param object
-     * @param property
+     * @param object {Object} - Object to be checked
+     * @param property {string} - Property to be checked
+     * @param [soft=true] {boolean} If true, exceptions will not be thrown
+     * @throws {Error} If soft mode is false and the object does not have the property
+     * @returns {boolean} Whether the object has the property (and matches the expected type)
      */
-    ensure.hasString = function (object, property) {
-        ensure.has(object, property, String);
+    ensure.hasString = function (object, property, soft) {
+        return ensure.has(object, property, String, soft);
     };
 
     /**
      * Check if an object has a certain Number property defined
      *
-     * @param object
-     * @param property
+     * @param object {Object} - Object to be checked
+     * @param property {string} - Property to be checked
+     * @param [soft=true] {boolean} If true, exceptions will not be thrown
+     * @throws {Error} If soft mode is false and the object does not have the property
+     * @returns {boolean} Whether the object has the property (and matches the expected type)
      */
-    ensure.hasNumber = function (object, property) {
-        ensure.has(object, property, Number);
+    ensure.hasNumber = function (object, property, soft) {
+        return ensure.has(object, property, Number, soft);
     };
 
     /**
      * Check if an object has a certain Object property defined
      *
-     * @param object {Object}
-     * @param property {string}
+     * @param object {Object} - Object to be checked
+     * @param property {string} - Property to be checked
+     * @param [soft=true] {boolean} If true, exceptions will not be thrown
+     * @returns {boolean} Whether the object has the property (and matches the expected type)
      */
-    ensure.hasObject = function (object, property) {
-        ensure.has(object, property, Object);
+    ensure.hasObject = function (object, property, soft) {
+        return ensure.has(object, property, Object, soft);
     };
 
     /**
@@ -422,6 +477,18 @@ root = this;
      *
      * @param constructor {Function} - Constructor function to protect
      * @param context {Object} - `this` context of the object
+     *
+     * @example
+     * // Use inside a constructor
+     * var myClass = function () {
+     *     ensure.isNewThis(myClass, this);
+     * }
+     *
+     * // Works fine
+     * var myInstance = new myClass();
+     *
+     * // Throws an exception
+     * var myInstance2 = myClass();
      */
     ensure.requireIsNewThis = function (constructor, context) {
         if (!ensure.isNewThis(constructor, context)) {

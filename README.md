@@ -258,3 +258,6 @@ To hack on Ensure.js, you need Node.js 0.10+. To setup a dev environment, run th
 
 7.- You can check code coverage with:
 `grunt coverage`
+
+8.- You can compile documentation with:
+`grunt jsdoc`

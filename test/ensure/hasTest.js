@@ -18,19 +18,19 @@ describe('ensure', function () {
     describe('#has', function () {
         it('should not throw an error if the object has a member of the specified name', function () {
             (function () {
-                ensure.has(myObj, 'myString');
+                ensure.has(myObj, 'myString', undefined, false);
             }).should.not.throw();
         });
 
         it('should throw an error if the object does not have the specified member', function () {
             (function () {
-                ensure.has(myObj, 'myFictionalString');
+                ensure.has(myObj, 'myFictionalString', undefined, false);
             }).should.throw();
         });
 
         it('should throw an error if the object is undefined', function () {
             (function () {
-                ensure.has(undefined, 'myFictionalString');
+                ensure.has(undefined, 'myFictionalString', undefined, false);
             }).should.throw();
         });
     });
@@ -38,13 +38,13 @@ describe('ensure', function () {
     describe('#hasFunction', function () {
         it('should not throw an error if it is a member function', function () {
             (function () {
-                ensure.hasFunction(myObj, 'myFunction');
+                ensure.hasFunction(myObj, 'myFunction', false);
             }).should.not.throw();
         });
 
         it('should throw an error if it is not a member function', function () {
             (function () {
-                ensure.hasFunction(myObj, 'myFunctionNot');
+                ensure.hasFunction(myObj, 'myFunctionNot', false);
             }).should.throw();
         });
     });
@@ -52,13 +52,13 @@ describe('ensure', function () {
     describe('#hasString', function () {
         it('should not throw an error if it is a string', function () {
             (function () {
-                ensure.hasString(myObj, 'myString');
+                ensure.hasString(myObj, 'myString', false);
             }).should.not.throw();
         });
 
         it('should throw an error if it is not a string', function () {
             (function () {
-                ensure.hasString(myObj, 'myStringNot');
+                ensure.hasString(myObj, 'myStringNot', false);
             }).should.throw();
         });
     });
@@ -66,13 +66,13 @@ describe('ensure', function () {
     describe('#hasNumber', function () {
         it('should not throw an error if it is a number', function () {
             (function () {
-                ensure.hasNumber(myObj, 'myNumber');
+                ensure.hasNumber(myObj, 'myNumber', false);
             }).should.not.throw();
         });
 
         it('should throw an error if it is not a number', function () {
             (function () {
-                ensure.hasNumber(myObj, 'myNumberNot');
+                ensure.hasNumber(myObj, 'myNumberNot', false);
             }).should.throw();
         });
     });
@@ -80,13 +80,13 @@ describe('ensure', function () {
     describe('#hasObject', function () {
         it('should not throw an error if it is a object', function () {
             (function () {
-                ensure.hasObject(myObj, 'mySubObj');
+                ensure.hasObject(myObj, 'mySubObj', false);
             }).should.not.throw();
         });
 
         it('should throw an error if it is not a object', function () {
             (function () {
-                ensure.hasObject(myObj, 'mySubObjNot');
+                ensure.hasObject(myObj, 'mySubObjNot', false);
             }).should.throw();
         });
     });
