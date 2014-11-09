@@ -11,7 +11,8 @@ A simple library for checking types in Javascript + extras
 ### 0.5.0
 
 - Shield (Beta): Protect functions by adding a wrapper that checks function parameters and return values
-- Documentation
+- Documentation ([Online Version](http://assets.chromabits.com/ensure/docs/))
+- Enforcenment is now optional with `ensure.enforce`. Production code can skip type checks and run faster.
 - [Breaking] __has()__ no longer throws exceptions by default, it behaves like __ensure()__ now with a `soft` parameter
 
 ## Usage
@@ -164,6 +165,30 @@ bob.name = [1, 5, 7];
 >>> [TypeException]
 ```
 
+## Shields
+
+Version 0.5.0 now comes with a factory function called Shield (ensure.shield), which allows you to add a simple wrapper around your function that will type check your arguments and your return values automatically for you:
+
+```js
+// First we create our shielded function
+var myShieldFunction = ensure.shield([Boolean, Array], Number, function (arg1, arg2) {
+    if (arg1) {
+        return {};
+    }
+
+    return 1337;
+});
+
+// This works fine
+myShieldFunction(false, []);
+
+// This throws an error
+myShieldFunction([], []);
+
+// This also throws an error since the return value is not a number
+myShieldFunction(true, []);
+```
+
 ## Other Extras:
 
 __require(object)__
@@ -232,7 +257,7 @@ Check if a number is positive:
 ensure.isPositiveNumber(object);
 ```
 
-and a few more, just take a look at the source
+and a few more, take a look at the docs
 
 ## Development
 
