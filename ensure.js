@@ -8,7 +8,7 @@ var ensure,
     root;
 
 // Establish the root object, `window` in the browser, or `global` on the server.
-root = this;
+root = global || this;
 
 (function () {
     "use strict";
@@ -57,56 +57,49 @@ root = this;
 
         if (type === String) {
             if (ensure.isNotString(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(String);
+                return throwTypeException(String, soft);
             }
         } else if (type === Boolean) {
             if (ensure.isNotBoolean(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Boolean);
+                return throwTypeException(Boolean, soft);
             }
         } else if (type === Array) {
             if (ensure.isNotArray(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Array);
+                return throwTypeException(Array, soft);
             }
         } else if (type === Number) {
             if (ensure.isNotNumber(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Number);
+                return throwTypeException(Number, soft);
             }
         } else if (type === Object) {
             if (ensure.isNotObject(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Object);
+                return throwTypeException(Object, soft);
+            }
+        } else if (type === ensure.Nothing) {
+            if (object !== undefined) {
+                return throwTypeException(Nothing, soft);
+            }
+        } else if (type === ensure.EnsureType) {
+            if (!object instanceof Function || ensure.isNotIn(object, ensure.getSupportedTypes())) {
+                return throwTypeException(ensure.EnsureType, soft);
             }
         } else {
             if ((object instanceof type) === false) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(type);
+                return throwTypeException(type, soft);
             }
         }
 
         return true;
     };
+
+    // Internal function for throwing type exceptions
+    function throwTypeException (type, soft) {
+        if (soft) {
+            return false;
+        }
+
+        throw new ensure.TypeException(type);
+    }
 
     // Set the ensure function
     ensure = ensureFunction;
@@ -123,6 +116,23 @@ root = this;
      * @default
      */
     ensure.enforce = true;
+
+    /**
+     * Get array containing JavaScript types supported by Ensure.js
+     *
+     * @returns {*[]}
+     */
+    ensure.getSupportedTypes = function () {
+        return [
+            String,
+            Boolean,
+            Number,
+            Array,
+            Object,
+            Function,
+            ensure.Nothing
+        ];
+    };
 
     /**
      * Check if object is undefined, null or an empty string
@@ -496,6 +506,14 @@ root = this;
         }
     };
 
+    /**
+     * Base object for internal types
+     *
+     * @constructor
+     */
+    ensure.EnsureType = function () {};
+    //ensure.EnsureType.name = 'EnsureType';
+
     var isNode = false;
 
     if (typeof module !== 'undefined' && module.exports) {
@@ -504,6 +522,137 @@ root = this;
     }
 
     root.ensure = ensure;
+})();
+(function () {
+    var Nothing,
+
+        EnsureType = ensure.EnsureType;
+
+    /**
+     * Nothing Type
+     *
+     * An alias for `undefined` for Ensure
+     *
+     * @memberof ensure
+     *
+     * @constructor
+     */
+    Nothing = function () {
+
+    };
+
+    Nothing.name = 'Nothing';
+
+    /**
+     * Extend ensure type
+     *
+     * @type {ensure.EnsureType}
+     */
+    Nothing.prototype = new EnsureType();
+
+    ensure.Nothing = Nothing;
+})();
+(function () {
+    "use strict";
+
+    var Nullable,
+        NullableInstance,
+
+        EnsureType = ensure.EnsureType;
+
+    /**
+     * Nullable type factory
+     *
+     * @memberof ensure
+     *
+     * @param type {EnsureType} - Expected type when not null
+     * @returns {NullableInstance} - NullableInstance with the expected type
+     * @constructor
+     */
+    Nullable = function (type) {
+        ensure(type, EnsureType);
+
+        return new NullableInstance(type);
+    };
+
+    /**
+     * A Nullable type
+     *
+     * Nullable types are used internally by Ensure.js to allow
+     * type checks of a value that can either be null or of a type
+     *
+     * If no value is specified, it defaults to null
+     *
+     * @memberof ensure
+     *
+     * @param type {EnsureType} - Expected type when not null
+     * @param value {*} - Internal value
+     * @constructor
+     */
+    NullableInstance = function (type, value) {
+        ensure.requireIsNewThis(NullableInstance, this);
+        ensure(type, EnsureType);
+
+        this.type = type;
+
+        this.value = null;
+
+        if (value !== undefined) {
+            this.setValue(value);
+        }
+    };
+
+    /**
+     * Extend ensure type
+     *
+     * @type {ensure.EnsureType}
+     */
+    NullableInstance.prototype = new EnsureType();
+
+    /**
+     * Set the value
+     *
+     * @param value {null|*}
+     */
+    NullableInstance.prototype.setValue = function (value) {
+        if (value === null) {
+            this.value = value;
+        } else {
+            ensure(value, this.type);
+
+            this.value = value;
+        }
+    };
+
+    /**
+     * Get the value
+     *
+     * @returns {null|*}
+     */
+    NullableInstance.prototype.getValue = function () {
+        return this.value;
+    };
+
+    /**
+     * Get whether the value is null
+     *
+     * @returns {boolean}
+     */
+    NullableInstance.prototype.isNull = function () {
+        return (this.value === null);
+    };
+
+    /**
+     * Get the expected type when not null
+     *
+     * @returns {Function|*}
+     */
+    NullableInstance.prototype.getType = function () {
+        return this.type;
+    };
+
+    ensure.Nullable = Nullable;
+    ensure.NullableInstance = NullableInstance;
 })();
 (function () {
     "use strict";
@@ -595,7 +744,10 @@ root = this;
 (function () {
     "use strict";
 
-    var shield;
+    var shield,
+
+        EnsureType = ensure.EnsureType,
+        Nothing = ensure.Nothing;
 
     /**
      * Wrap around a function and perform type checks
@@ -629,7 +781,7 @@ root = this;
      */
     shield = function (argumentSpec, returnType, innerFunction, thisContext) {
         ensure(argumentSpec, Array);
-        ensure(returnType, Function);
+        ensure(returnType, EnsureType);
         ensure(innerFunction, Function);
 
         return function () {
@@ -651,7 +803,11 @@ root = this;
             returnValue = innerFunction.apply(thisContext, arguments);
 
             // Check return type
-            ensure(returnValue, returnType);
+            if (returnType !== Nothing) {
+                ensure(returnValue, returnType);
+            } else if (returnValue !== undefined) {
+                throw new Error('Function returned a value when nothing was expected');
+            }
 
             return returnValue;
         };
@@ -683,7 +839,15 @@ root = this;
 
         this.expectedType = expectedType;
 
-        this.message = message || 'Invalid type: Expected ' + expectedType.name;
+        if (!message) {
+            if (expectedType.hasOwnProperty('name')) {
+                message = 'Invalid type: Expected ' + expectedType.name;
+            } else {
+                message = 'Invalid type';
+            }
+        }
+
+        this.message = message;
     };
 
     TypeException.prototype = new Error();

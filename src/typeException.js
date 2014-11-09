@@ -22,7 +22,15 @@
 
         this.expectedType = expectedType;
 
-        this.message = message || 'Invalid type: Expected ' + expectedType.name;
+        if (!message) {
+            if (expectedType.hasOwnProperty('name')) {
+                message = 'Invalid type: Expected ' + expectedType.name;
+            } else {
+                message = 'Invalid type';
+            }
+        }
+
+        this.message = message;
     };
 
     TypeException.prototype = new Error();

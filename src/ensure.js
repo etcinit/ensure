@@ -8,7 +8,7 @@ var ensure,
     root;
 
 // Establish the root object, `window` in the browser, or `global` on the server.
-root = this;
+root = global || this;
 
 (function () {
     "use strict";
@@ -57,56 +57,49 @@ root = this;
 
         if (type === String) {
             if (ensure.isNotString(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(String);
+                return throwTypeException(String, soft);
             }
         } else if (type === Boolean) {
             if (ensure.isNotBoolean(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Boolean);
+                return throwTypeException(Boolean, soft);
             }
         } else if (type === Array) {
             if (ensure.isNotArray(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Array);
+                return throwTypeException(Array, soft);
             }
         } else if (type === Number) {
             if (ensure.isNotNumber(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Number);
+                return throwTypeException(Number, soft);
             }
         } else if (type === Object) {
             if (ensure.isNotObject(object)) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(Object);
+                return throwTypeException(Object, soft);
+            }
+        } else if (type === ensure.Nothing) {
+            if (object !== undefined) {
+                return throwTypeException(Nothing, soft);
+            }
+        } else if (type === ensure.EnsureType) {
+            if (!object instanceof Function || ensure.isNotIn(object, ensure.getSupportedTypes())) {
+                return throwTypeException(ensure.EnsureType, soft);
             }
         } else {
             if ((object instanceof type) === false) {
-                if (soft) {
-                    return false;
-                }
-
-                throw new ensure.TypeException(type);
+                return throwTypeException(type, soft);
             }
         }
 
         return true;
     };
+
+    // Internal function for throwing type exceptions
+    function throwTypeException (type, soft) {
+        if (soft) {
+            return false;
+        }
+
+        throw new ensure.TypeException(type);
+    }
 
     // Set the ensure function
     ensure = ensureFunction;
@@ -123,6 +116,23 @@ root = this;
      * @default
      */
     ensure.enforce = true;
+
+    /**
+     * Get array containing JavaScript types supported by Ensure.js
+     *
+     * @returns {*[]}
+     */
+    ensure.getSupportedTypes = function () {
+        return [
+            String,
+            Boolean,
+            Number,
+            Array,
+            Object,
+            Function,
+            ensure.Nothing
+        ];
+    };
 
     /**
      * Check if object is undefined, null or an empty string
@@ -495,6 +505,14 @@ root = this;
             throw new Error('Expected the function to be called as a constructor with the "new" keyword');
         }
     };
+
+    /**
+     * Base object for internal types
+     *
+     * @constructor
+     */
+    ensure.EnsureType = function () {};
+    //ensure.EnsureType.name = 'EnsureType';
 
     var isNode = false;
 

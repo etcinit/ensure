@@ -2,6 +2,8 @@
 
 var ensure = require('../../ensure'),
 
+    Nothing = ensure.Nothing,
+
     // A test function
     myTestFunction = function (arg1, arg2) {
         return arg1 && arg2;
@@ -77,7 +79,7 @@ describe('ensure', function () {
         });
 
         it('should not fail when a return value is not expected', function () {
-            var myWrappedFunction = ensure.shield([], undefined, function () {
+            var myWrappedFunction = ensure.shield([], Nothing, function () {
                 return;
             });
 
@@ -87,7 +89,7 @@ describe('ensure', function () {
         });
 
         it('should fail when a return value is not expected but it is provided', function () {
-            var myWrappedFunction = ensure.shield([], undefined, function () {
+            var myWrappedFunction = ensure.shield([], Nothing, function () {
                 return true;
             });
 

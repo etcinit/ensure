@@ -2,6 +2,8 @@
 
 var ensure = require('../ensure'),
 
+    Nothing = ensure.Nothing,
+
     CustomType = function () {},
     CustomTypeInstance = new CustomType();
 
@@ -72,6 +74,20 @@ describe('ensure', function () {
             ensure(new Object(), Object);
         }).should.not.throw();
 
+        // Function
+        (function () {
+            ensure(Array, Function);
+        }).should.not.throw();
+
+        (function () {
+            ensure(Array, Function);
+        }).should.not.throw();
+
+        // Nothing
+        (function () {
+            ensure(undefined, Nothing);
+        }).should.not.throw();
+
         // Custom
         (function () {
             ensure(CustomTypeInstance, CustomType);
@@ -138,6 +154,11 @@ describe('ensure', function () {
 
         (function () {
             ensure(undefined, Object);
+        }).should.throw();
+
+        // Nothing
+        (function () {
+            ensure('hello', Nothing);
         }).should.throw();
 
         // Custom

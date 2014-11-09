@@ -2,21 +2,23 @@
     "use strict";
 
     var Nullable,
-        NullableInstance;
+        NullableInstance,
+
+        EnsureType = ensure.EnsureType;
 
     /**
      * Nullable type factory
      *
      * @memberof ensure
      *
-     * @param type {Function} - Expected type when not null
+     * @param type {EnsureType} - Expected type when not null
      * @returns {NullableInstance} - NullableInstance with the expected type
      * @constructor
      */
     Nullable = function (type) {
-        ensure(type, Function);
+        ensure(type, EnsureType);
 
-        return new NullableInstance();
+        return new NullableInstance(type);
     };
 
     /**
@@ -29,13 +31,13 @@
      *
      * @memberof ensure
      *
-     * @param type {Function} - Expected type when not null
+     * @param type {EnsureType} - Expected type when not null
      * @param value {*} - Internal value
      * @constructor
      */
     NullableInstance = function (type, value) {
         ensure.requireIsNewThis(NullableInstance, this);
-        ensure(type, Function);
+        ensure(type, EnsureType);
 
         this.type = type;
 
@@ -45,6 +47,13 @@
             this.setValue(value);
         }
     };
+
+    /**
+     * Extend ensure type
+     *
+     * @type {ensure.EnsureType}
+     */
+    NullableInstance.prototype = new EnsureType();
 
     /**
      * Set the value
@@ -89,5 +98,5 @@
     };
 
     ensure.Nullable = Nullable;
-    ensure.NullableIntance = NullableInstance;
-});
+    ensure.NullableInstance = NullableInstance;
+})();
