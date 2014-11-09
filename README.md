@@ -1,6 +1,6 @@
 ![Logo](http://assets.chromabits.com/ensure/logo.png)
 
-# Ensure.js
+# Ensure.js [![Build Status](https://drone.io/github.com/eduard44/ensure/status.png)](https://drone.io/github.com/eduard44/ensure/latest)
 
 A simple library for checking types in Javascript + extras
 
