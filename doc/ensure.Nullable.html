@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Ensure.js Source: typeException.js</title>
+	<title>Ensure.js Class: Nullable</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -94,53 +94,201 @@
 	<div class="row-fluid">
 
 		
-			<div class="span12">
-				
+		<div class="span8">
+			
 				<div id="main">
 					
 
 
-		<h1 class="page-title">Source: typeException.js</h1>
-    
+	<h1 class="page-title">Class: Nullable</h1>
 <section>
-	<article>
-		<pre
-			class="sunlight-highlight-javascript linenums">(function () {
-    "use strict";
 
-    var TypeException;
+<header>
+    <h2>
+        <span class="ancestors"><a href="ensure.html">ensure</a>.</span>
+    
+    Nullable
+    </h2>
+    
+</header>
 
-    /**
-     * TypeException
-     *
-     * @param expectedType {*} - Type that was expected in the type check
-     * @param message {string} - Error message
-     *
-     * @constructor
-     * @class
-     * @memberof ensure
-     * @extends Error
-     *
-     * @property message {string}
-     * @property expectedType {*}
-     */
-    TypeException = function (expectedType, message) {
-        this.name = 'TypeException';
+<article>
+    <div class="container-overview">
+    
 
-        this.expectedType = expectedType;
+    
+        
+<dt>
+    <h4 class="name" id="Nullable"><span class="type-signature"></span>new Nullable<span class="signature">(type)</span><span class="type-signature"> &rarr; {NullableInstance}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Nullable type factory</p>
+    </div>
+    
 
-        this.message = message || 'Invalid type: Expected ' + expectedType.name;
-    };
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
 
-    TypeException.prototype = new Error();
-    TypeException.prototype.constructor = TypeException;
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
 
-    ensure.TypeException = TypeException;
-    root.TypeException = TypeException;
-})();</pre>
-	</article>
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">EnsureType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Expected type when not null</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="nullable.js.html">nullable.js</a>,
+				 <a href="nullable.js.html#sunlight-1-line-18">line 18</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <ul>
+<li>NullableInstance with the expected type</li>
+</ul>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">NullableInstance</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
 </section>
-
 
 
 
@@ -164,6 +312,10 @@
 				</footer>
 			</div>
 
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
 			
 			<br clear="both">
 		</div>

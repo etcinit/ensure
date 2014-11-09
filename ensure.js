@@ -79,6 +79,11 @@ root = global || this;
             if (object !== undefined) {
                 return throwTypeException(Nothing, soft);
             }
+        } else if (type instanceof ensure.NullableInstance) {
+            if (!(object instanceof ensure.NullableInstance) && object !== null) {
+                // Call ensure again using the Nullable type
+                ensure(object, type.getType());
+            }
         } else if (type === ensure.EnsureType) {
             if (!object instanceof Function || ensure.isNotIn(object, ensure.getSupportedTypes())) {
                 return throwTypeException(ensure.EnsureType, soft);
@@ -120,7 +125,7 @@ root = global || this;
     /**
      * Get array containing JavaScript types supported by Ensure.js
      *
-     * @returns {*[]}
+     * @returns {Array}
      */
     ensure.getSupportedTypes = function () {
         return [
@@ -587,7 +592,7 @@ root = global || this;
      *
      * @param type {EnsureType} - Expected type when not null
      * @param value {*} - Internal value
-     * @constructor
+     * @class
      */
     NullableInstance = function (type, value) {
         ensure.requireIsNewThis(NullableInstance, this);
@@ -612,7 +617,10 @@ root = global || this;
     /**
      * Set the value
      *
-     * @param value {null|*}
+     * @name ensure.NullableInstance#setValue
+     * @function
+     *
+     * @param value {null|*} - Internal value
      */
     NullableInstance.prototype.setValue = function (value) {
         if (value === null) {
@@ -627,7 +635,10 @@ root = global || this;
     /**
      * Get the value
      *
-     * @returns {null|*}
+     * @name ensure.NullableInstance#getValue
+     * @function
+     *
+     * @returns {null|*} Internal value
      */
     NullableInstance.prototype.getValue = function () {
         return this.value;
@@ -636,7 +647,10 @@ root = global || this;
     /**
      * Get whether the value is null
      *
-     * @returns {boolean}
+     * @name ensure.NullableInstance#isNull
+     * @function
+     *
+     * @returns {boolean} True if the internal value is null
      */
     NullableInstance.prototype.isNull = function () {
         return (this.value === null);
@@ -645,7 +659,10 @@ root = global || this;
     /**
      * Get the expected type when not null
      *
-     * @returns {Function|*}
+     * @name ensure.NullableInstance#getType
+     * @function
+     *
+     * @returns {*} Type when not null
      */
     NullableInstance.prototype.getType = function () {
         return this.type;
@@ -839,15 +856,7 @@ root = global || this;
 
         this.expectedType = expectedType;
 
-        if (!message) {
-            if (expectedType.hasOwnProperty('name')) {
-                message = 'Invalid type: Expected ' + expectedType.name;
-            } else {
-                message = 'Invalid type';
-            }
-        }
-
-        this.message = message;
+        this.message = message || 'Invalid type: Expected ' + expectedType.name;
     };
 
     TypeException.prototype = new Error();

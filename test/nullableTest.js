@@ -25,27 +25,65 @@ describe('NullableInstance', function () {
         }).should.throw();
     });
 
-    it('should allow null or type as value', function () {
-        var NullableArray = new NullableInstance(Array);
+    it('should set value if provided in constructor', function () {
+        var numArray = [1, 2, 3],
+            NullableArray = new NullableInstance(Array, numArray);
 
-        (function () {
-            NullableArray.setValue([]);
-        }).should.not.throw();
-
-        (function () {
-            NullableArray.setValue(null);
-        }).should.not.throw();
+        NullableArray.getValue().should.be.equal(numArray);
     });
 
-    it('should not allow other types as value', function () {
-        var NullableArray = new NullableInstance(Array);
+    describe('#setValue', function () {
+        it('should allow null or type as value', function () {
+            var NullableArray = new NullableInstance(Array);
 
-        (function () {
-            NullableArray.setValue('hi');
-        }).should.throw();
+            (function () {
+                NullableArray.setValue([]);
+            }).should.not.throw();
 
-        (function () {
-            NullableArray.setValue(undefined);
-        }).should.throw();
+            (function () {
+                NullableArray.setValue(null);
+            }).should.not.throw();
+        });
+
+        it('should not allow other types as value', function () {
+            var NullableArray = new NullableInstance(Array);
+
+            (function () {
+                NullableArray.setValue('hi');
+            }).should.throw();
+
+            (function () {
+                NullableArray.setValue(undefined);
+            }).should.throw();
+        });
+    });
+
+    describe('#isNull', function () {
+        it('should return true when value is null', function () {
+            var NullableArray = new NullableInstance(Array);
+
+            NullableArray.isNull().should.be.true;
+
+            NullableArray.setValue([1, 2, 3]);
+
+            NullableArray.isNull().should.be.false;
+        });
+    });
+
+    describe('#getType', function () {
+        it('should return the type specified in the ocnstructor', function () {
+            var NullableArray = new NullableInstance(Array);
+
+            NullableArray.getType().should.be.equal(Array);
+        });
+    });
+
+    describe('#getValue', function () {
+        it('should return the type specified in the ocnstructor', function () {
+            var numArray = [1, 2, 3],
+                NullableArray = new NullableInstance(Array, numArray);
+
+            NullableArray.getValue().should.be.equal(numArray);
+        });
     });
 });

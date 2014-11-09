@@ -33,7 +33,7 @@
      *
      * @param type {EnsureType} - Expected type when not null
      * @param value {*} - Internal value
-     * @constructor
+     * @class
      */
     NullableInstance = function (type, value) {
         ensure.requireIsNewThis(NullableInstance, this);
@@ -58,7 +58,10 @@
     /**
      * Set the value
      *
-     * @param value {null|*}
+     * @name ensure.NullableInstance#setValue
+     * @function
+     *
+     * @param value {null|*} - Internal value
      */
     NullableInstance.prototype.setValue = function (value) {
         if (value === null) {
@@ -73,7 +76,10 @@
     /**
      * Get the value
      *
-     * @returns {null|*}
+     * @name ensure.NullableInstance#getValue
+     * @function
+     *
+     * @returns {null|*} Internal value
      */
     NullableInstance.prototype.getValue = function () {
         return this.value;
@@ -82,7 +88,10 @@
     /**
      * Get whether the value is null
      *
-     * @returns {boolean}
+     * @name ensure.NullableInstance#isNull
+     * @function
+     *
+     * @returns {boolean} True if the internal value is null
      */
     NullableInstance.prototype.isNull = function () {
         return (this.value === null);
@@ -91,7 +100,10 @@
     /**
      * Get the expected type when not null
      *
-     * @returns {Function|*}
+     * @name ensure.NullableInstance#getType
+     * @function
+     *
+     * @returns {*} Type when not null
      */
     NullableInstance.prototype.getType = function () {
         return this.type;

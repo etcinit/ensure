@@ -79,6 +79,11 @@ root = global || this;
             if (object !== undefined) {
                 return throwTypeException(Nothing, soft);
             }
+        } else if (type instanceof ensure.NullableInstance) {
+            if (!(object instanceof ensure.NullableInstance) && object !== null) {
+                // Call ensure again using the Nullable type
+                ensure(object, type.getType());
+            }
         } else if (type === ensure.EnsureType) {
             if (!object instanceof Function || ensure.isNotIn(object, ensure.getSupportedTypes())) {
                 return throwTypeException(ensure.EnsureType, soft);
@@ -120,7 +125,7 @@ root = global || this;
     /**
      * Get array containing JavaScript types supported by Ensure.js
      *
-     * @returns {*[]}
+     * @returns {Array}
      */
     ensure.getSupportedTypes = function () {
         return [

@@ -3,6 +3,7 @@
 var ensure = require('../ensure'),
 
     Nothing = ensure.Nothing,
+    Nullable = ensure.Nullable,
 
     CustomType = function () {},
     CustomTypeInstance = new CustomType();
@@ -88,6 +89,15 @@ describe('ensure', function () {
             ensure(undefined, Nothing);
         }).should.not.throw();
 
+        // Nullable
+        (function () {
+            ensure(null, Nullable(Array));
+
+            ensure([], Nullable(Array));
+
+            ensure(Nullable(Array), Nullable(Array));
+        }).should.not.throw();
+
         // Custom
         (function () {
             ensure(CustomTypeInstance, CustomType);
@@ -159,6 +169,15 @@ describe('ensure', function () {
         // Nothing
         (function () {
             ensure('hello', Nothing);
+        }).should.throw();
+
+        // Nullable
+        (function () {
+            ensure(string, Nullable(Array));
+        }).should.throw();
+
+        (function () {
+            ensure(undefined, Nullable(Array));
         }).should.throw();
 
         // Custom
