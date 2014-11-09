@@ -76,6 +76,26 @@ describe('ensure', function () {
             }).should.throw();
         });
 
+        it('should not fail when a return value is not expected', function () {
+            var myWrappedFunction = ensure.shield([], undefined, function () {
+                return;
+            });
+
+            (function (){
+                myWrappedFunction();
+            }).should.not.throw();
+        });
+
+        it('should fail when a return value is not expected but it is provided', function () {
+            var myWrappedFunction = ensure.shield([], undefined, function () {
+                return true;
+            });
+
+            (function (){
+                myWrappedFunction();
+            }).should.throw();
+        });
+
         it('should not type check arguments when enforce if off', function () {
             ensure.enforce = false;
 

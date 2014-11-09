@@ -57,7 +57,11 @@
             returnValue = innerFunction.apply(thisContext, arguments);
 
             // Check return type
-            ensure(returnValue, returnType);
+            if (returnType !== undefined) {
+                ensure(returnValue, returnType);
+            } else if (returnValue !== undefined) {
+                throw new Error('Function returned a value when nothing was expected');
+            }
 
             return returnValue;
         };
