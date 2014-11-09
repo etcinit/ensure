@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Ensure.js Global</title>
+	<title>Ensure.js Class: NullableInstance</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -100,12 +100,14 @@
 					
 
 
-	<h1 class="page-title">Global</h1>
+	<h1 class="page-title">Class: NullableInstance</h1>
 <section>
 
 <header>
     <h2>
+        <span class="ancestors"><a href="ensure.html">ensure</a>.</span>
     
+    NullableInstance
     </h2>
     
 </header>
@@ -116,62 +118,8 @@
 
     
         
-
-        
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-            
 <dt>
-    <h4 class="name" id="ensureFunction"><span class="type-signature"></span>ensureFunction<span class="signature">(object, type, <span class="optional">soft</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="NullableInstance"><span class="type-signature"></span>new NullableInstance<span class="signature">(type, value)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -179,14 +127,10 @@
     
     
     <div class="description">
-        <p>Ensure function</p>
-<p>Checks the type of an object matches an expected type</p>
-<p>A TypeException is thrown if the type is not matched</p>
-<p>If soft is set to <code>true</code>, a boolean is returned instead
-Additionally, if soft is explicitly set to <code>false</code>, the <a href="ensure.html#enforce">ensure.enforce</a>
-variable is ignored and a type check will be performed and it may
-throw an exception.</p>
-<p>When <a href="ensure.html#enforce">ensure.enforce</a> is <code>false</code>, type checks are skipped and returns <code>true</code></p>
+        <p>A Nullable type</p>
+<p>Nullable types are used internally by Ensure.js to allow
+type checks of a value that can either be null or of a type</p>
+<p>If no value is specified, it defaults to null</p>
     </div>
     
 
@@ -208,11 +152,7 @@ throw an exception.</p>
 		<th>Type</th>
 
 		
-		<th>Argument</th>
-		
 
-		
-		<th>Default</th>
 		
 
 		<th class="last">Description</th>
@@ -224,7 +164,30 @@ throw an exception.</p>
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">EnsureType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Expected type when not null</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -237,96 +200,10 @@ throw an exception.</p>
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last"><p>Object to be checked</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>Type to compare the object to</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>soft</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>If set to false, an exception is thrown if the type check fails</p></td>
+            <td class="description last"><p>Internal value</p></td>
         </tr>
 
 	
@@ -362,8 +239,8 @@ throw an exception.</p>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="ensure.js.html">ensure.js</a>,
-				 <a href="ensure.js.html#sunlight-1-line-51">line 51</a>
+				<a href="nullable.js.html">nullable.js</a>,
+				 <a href="nullable.js.html#sunlight-1-line-38">line 38</a>
 			</li>
 		</ul>
 	</dd>
@@ -372,12 +249,99 @@ throw an exception.</p>
 	
 
 	
-	<dt class="tag-see">See:</dt>
-	<dd class="tag-see">
-		<ul>
-			<li><a href="ensure.html#enforce">ensure.enforce</a> for more information on production-mode</li>
-			</ul>
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="getType"><span class="type-signature"></span>getType<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get the expected type when not null</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="nullable.js.html">nullable.js</a>,
+				 <a href="nullable.js.html#sunlight-1-line-100">line 100</a>
+			</li>
+		</ul>
 	</dd>
+	
+
+	
+
 	
 
 	
@@ -391,38 +355,216 @@ throw an exception.</p>
     
     
     
-    <h5>Throws:</h5>
+    
+    
+    <h5>Returns:</h5>
     
             
+<div class="param-desc">
+    <p>Type when not null</p>
+</div>
+
+
 
 <dl>
-    <dt>
-        <div class="param-desc">
-        If there is a type mismatch
-        </div>
-    </dt>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type"><a href="ensure.TypeException.html">ensure.TypeException</a></span>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">*</span>
 
 
-            </dd>
-        </dl>
-    </dt>
+	</dd>
 </dl>
 
 
         
     
     
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getValue"><span class="type-signature"></span>getValue<span class="signature">()</span><span class="type-signature"> &rarr; {null|*}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get the value</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="nullable.js.html">nullable.js</a>,
+				 <a href="nullable.js.html#sunlight-1-line-76">line 76</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
     <h5>Returns:</h5>
     
             
+<div class="param-desc">
+    <p>Internal value</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">null</span>
+|
+
+<span class="param-type">*</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isNull"><span class="type-signature"></span>isNull<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get whether the value is null</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="nullable.js.html">nullable.js</a>,
+				 <a href="nullable.js.html#sunlight-1-line-88">line 88</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>True if the internal value is null</p>
+</div>
+
 
 
 <dl>
@@ -441,18 +583,133 @@ throw an exception.</p>
         
     
     
-        <h5>Examples</h5>
+</dd>
+
         
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Returns true
-ensure(&#x27;hi&#x27;, String);</pre>
+            
+<dt>
+    <h4 class="name" id="setValue"><span class="type-signature"></span>setValue<span class="signature">(value)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Set the value</p>
+    </div>
+    
 
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Returns false
-ensure(&#x27;hi&#x27;, Number, false);</pre>
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
 
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Throws TypeException
-ensure(&#x27;hi&#x27;, Boolean);</pre>
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">null</span>
+|
+
+<span class="param-type">*</span>
 
 
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Internal value</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="nullable.js.html">nullable.js</a>,
+				 <a href="nullable.js.html#sunlight-1-line-58">line 58</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
     
 </dd>
 

@@ -1,15 +1,15 @@
 "use strict";
 
-var ensure = require('../../ensure');
+var ensure = require('../../ensure'),
+
+    root = global;
 
 describe('ensure', function () {
     describe('#isNewThis', function () {
         it('should return false if the function is called in the global scope', function () {
-            var myObject = function () {
-                ensure.isNewThis(myObject, this).should.be.false;
-            };
+            var myObject = function () {};
 
-            myObject.bind(root)();
+            ensure.isNewThis(myObject, root).should.be.false;
         });
 
         it('should return true if the constructor has a new context', function () {

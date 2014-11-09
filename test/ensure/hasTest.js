@@ -33,6 +33,18 @@ describe('ensure', function () {
                 ensure.has(undefined, 'myFictionalString', undefined, false);
             }).should.throw();
         });
+
+        it('should return true if the object has a member of the specified name', function () {
+            ensure.has(myObj, 'myString', undefined).should.be.true;
+        });
+
+        it('should return false if the object does not have the specified member', function () {
+            ensure.has(myObj, 'myFictionalString', undefined).should.be.false;
+        });
+
+        it('should return false if the object is undefined', function () {
+            ensure.has(undefined, 'myFictionalString').should.be.false;
+        });
     });
 
     describe('#hasFunction', function () {

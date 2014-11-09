@@ -1,7 +1,10 @@
 (function () {
     "use strict";
 
-    var shield;
+    var shield,
+
+        EnsureType = ensure.EnsureType,
+        Nothing = ensure.Nothing;
 
     /**
      * Wrap around a function and perform type checks
@@ -35,7 +38,7 @@
      */
     shield = function (argumentSpec, returnType, innerFunction, thisContext) {
         ensure(argumentSpec, Array);
-        ensure(returnType, Function);
+        ensure(returnType, EnsureType);
         ensure(innerFunction, Function);
 
         return function () {
@@ -57,7 +60,11 @@
             returnValue = innerFunction.apply(thisContext, arguments);
 
             // Check return type
-            ensure(returnValue, returnType);
+            if (returnType !== Nothing) {
+                ensure(returnValue, returnType);
+            } else if (returnValue !== undefined) {
+                throw new Error('Function returned a value when nothing was expected');
+            }
 
             return returnValue;
         };

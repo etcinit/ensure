@@ -8,6 +8,12 @@ A simple library for checking types in Javascript + extras
 
 ## News
 
+### 0.5.1
+
+- Nullable types: It is now possible to type check a type or a null value
+- Nothing type (alias of undefined): You can now type check `undefined`, which is mostly useless. However, on function shields, Nothing is used to specify when a function doesn't return a value
+- 100% test coverage
+
 ### 0.5.0
 
 - Shield (Beta): Protect functions by adding a wrapper that checks function parameters and return values
@@ -187,6 +193,63 @@ myShieldFunction([], []);
 
 // This also throws an error since the return value is not a number
 myShieldFunction(true, []);
+```
+
+## Nothing
+
+Sometimes shielded functions do not return a value, in these cases we use `Nothing` which is an alias for `undefined`:
+
+```js
+var Nothing = ensure.Nothing,
+
+    myVal,
+    myShieldFunction;
+    
+myShieldFunction = ensure.shield([Boolean, Array], Nothing, function (arg1, arg2) {
+    myVal = arg2.length;
+});
+```
+
+## Nullable
+
+Nullable allows the type check input to be `null` or the type we are expecting:
+
+```js
+var Nullable = ensure.Nullable;
+
+// We can also allow a variable to be null
+ensure(null, Nullable(String), true);
+>> true
+
+ensure([], Nullable(String), true);
+>> false
+```
+
+You can also use NullableInstances in your code:
+
+```js
+var Nullable = ensure.Nullable,
+    NullableInstance = ensure.NullableInstance,
+
+    SomeNullableArray = new NullableInstance(Array, []);
+	
+// Check if it is null
+SomeNullableArray.isNull();
+>> false
+
+// This works fine
+SomeNullableArray.setValue(null);
+
+// Check if it is null again
+SomeNullableArray.isNull();
+>> true
+
+// They can also be type checked
+ensure(SomeNullableArray, Nullable(Array), true);
+>> true
+
+// This does not
+SomeNullableArray.setValue('hello');
 ```
 
 ## Other Extras:

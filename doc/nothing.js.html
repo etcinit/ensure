@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Ensure.js Source: typeException.js</title>
+	<title>Ensure.js Source: nothing.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -100,43 +100,39 @@
 					
 
 
-		<h1 class="page-title">Source: typeException.js</h1>
+		<h1 class="page-title">Source: nothing.js</h1>
     
 <section>
 	<article>
 		<pre
 			class="sunlight-highlight-javascript linenums">(function () {
-    "use strict";
+    var Nothing,
 
-    var TypeException;
+        EnsureType = ensure.EnsureType;
 
     /**
-     * TypeException
+     * Nothing Type
      *
-     * @param expectedType {*} - Type that was expected in the type check
-     * @param message {string} - Error message
+     * An alias for `undefined` for Ensure
+     *
+     * @memberof ensure
      *
      * @constructor
-     * @class
-     * @memberof ensure
-     * @extends Error
-     *
-     * @property message {string}
-     * @property expectedType {*}
      */
-    TypeException = function (expectedType, message) {
-        this.name = 'TypeException';
+    Nothing = function () {
 
-        this.expectedType = expectedType;
-
-        this.message = message || 'Invalid type: Expected ' + expectedType.name;
     };
 
-    TypeException.prototype = new Error();
-    TypeException.prototype.constructor = TypeException;
+    Nothing.name = 'Nothing';
 
-    ensure.TypeException = TypeException;
-    root.TypeException = TypeException;
+    /**
+     * Extend ensure type
+     *
+     * @type {ensure.EnsureType}
+     */
+    Nothing.prototype = new EnsureType();
+
+    ensure.Nothing = Nothing;
 })();</pre>
 	</article>
 </section>
