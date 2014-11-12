@@ -1,6 +1,6 @@
 {
   "name": "ensure.js",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Simple JS type-checking + extras",
   "main": "ensure.js",
   "scripts": {

@@ -512,6 +512,30 @@ root = global || this;
     };
 
     /**
+     * Return the first argument that is not null or undefined
+     *
+     * @param {...*} option - Options to chose from
+     * @returns {null}
+     */
+    ensure.one = function (option) {
+        var args = Array.prototype.slice.call(arguments),
+            result = null;
+
+        if (args.length < 1) {
+            return null;
+        }
+
+        // Pick the first thing that is not null or undefined
+        args.forEach(function (argument) {
+            if (argument !== undefined && argument !== null && result === null) {
+                result = argument;
+            }
+        });
+
+        return result;
+    };
+
+    /**
      * Base object for internal types
      *
      * @constructor
