@@ -514,8 +514,21 @@ root = global || this;
     /**
      * Return the first argument that is not null or undefined
      *
+     * Useful for default parameters in functions
+     *
      * @param {...*} option - Options to chose from
-     * @returns {null}
+     * @returns {null|*}
+     *
+     * @example
+     * var either = function(opt1, opt2) {
+     *     return ensure.one(opt1, opt2);
+     * }
+     *
+     * // Returns 1
+     * either(null, 1);
+     *
+     * // Returns 'hello'
+     * either('hello', 'world');
      */
     ensure.one = function (option) {
         var args = Array.prototype.slice.call(arguments),

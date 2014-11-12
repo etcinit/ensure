@@ -6,7 +6,11 @@ A simple library for checking types in Javascript + extras
 
 [![NPM](https://nodei.co/npm/ensure.js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ensure.js/)
 
-## News
+## Changes
+
+### 0.5.2
+
+- Added ensure.one()
 
 ### 0.5.1
 
