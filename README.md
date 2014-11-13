@@ -8,6 +8,10 @@ A simple library for checking types in Javascript + extras
 
 ## Changes
 
+### 0.5.3
+
+- Fix bug that would not allow ensure.shield() with Nullable in the function arguments, due to the argument number length
+
 ### 0.5.2
 
 - Added ensure.one()

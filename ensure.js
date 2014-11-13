@@ -514,8 +514,21 @@ root = global || this;
     /**
      * Return the first argument that is not null or undefined
      *
+     * Useful for default parameters in functions
+     *
      * @param {...*} option - Options to chose from
-     * @returns {null}
+     * @returns {null|*}
+     *
+     * @example
+     * var either = function(opt1, opt2) {
+     *     return ensure.one(opt1, opt2);
+     * }
+     *
+     * // Returns 1
+     * either(null, 1);
+     *
+     * // Returns 'hello'
+     * either('hello', 'world');
      */
     ensure.one = function (option) {
         var args = Array.prototype.slice.call(arguments),
@@ -788,6 +801,7 @@ root = global || this;
     var shield,
 
         EnsureType = ensure.EnsureType,
+        NullableInstance = ensure.NullableInstance,
         Nothing = ensure.Nothing;
 
     /**
@@ -825,12 +839,27 @@ root = global || this;
         ensure(returnType, EnsureType);
         ensure(innerFunction, Function);
 
+        var nullableCount = 0,
+            minArgCount = 0,
+            maxArgCount = 0;
+
+        // Count how many items in the spec are nullable
+        argumentSpec.forEach(function (specItem) {
+            if (specItem instanceof NullableInstance) {
+                nullableCount++;
+            }
+        });
+
+        // Compute min and max number of arguments allowed
+        maxArgCount = argumentSpec.length;
+        minArgCount = maxArgCount - nullableCount;
+
         return function () {
             var i,
                 returnValue;
 
             // Check that we got the same number of arguments as specified in the spec
-            if (argumentSpec.length !== arguments.length) {
+            if (maxArgCount < arguments.length || minArgCount > arguments.length) {
                 throw new Error('Function called with an invalid number of arguments');
             }
 

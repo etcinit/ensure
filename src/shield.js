@@ -4,6 +4,7 @@
     var shield,
 
         EnsureType = ensure.EnsureType,
+        NullableInstance = ensure.NullableInstance,
         Nothing = ensure.Nothing;
 
     /**
@@ -41,12 +42,27 @@
         ensure(returnType, EnsureType);
         ensure(innerFunction, Function);
 
+        var nullableCount = 0,
+            minArgCount = 0,
+            maxArgCount = 0;
+
+        // Count how many items in the spec are nullable
+        argumentSpec.forEach(function (specItem) {
+            if (specItem instanceof NullableInstance) {
+                nullableCount++;
+            }
+        });
+
+        // Compute min and max number of arguments allowed
+        maxArgCount = argumentSpec.length;
+        minArgCount = maxArgCount - nullableCount;
+
         return function () {
             var i,
                 returnValue;
 
             // Check that we got the same number of arguments as specified in the spec
-            if (argumentSpec.length !== arguments.length) {
+            if (maxArgCount < arguments.length || minArgCount > arguments.length) {
                 throw new Error('Function called with an invalid number of arguments');
             }
 

@@ -3,6 +3,7 @@
 var ensure = require('../../ensure'),
 
     Nothing = ensure.Nothing,
+    Nullable = ensure.Nullable,
 
     // A test function
     myTestFunction = function (arg1, arg2) {
@@ -71,6 +72,22 @@ describe('ensure', function () {
 
             (function (){
                 myWrappedFunction();
+            }).should.not.throw();
+
+            (function (){
+                myWrappedFunction(false);
+            }).should.throw();
+        });
+
+        it('should fail not on argument number mismatch with nullables', function () {
+            var myWrappedFunction = ensure.shield([Nullable(String)], Boolean, function () {
+                return true;
+            });
+
+            (function (){
+                myWrappedFunction();
+
+                myWrappedFunction('hi');
             }).should.not.throw();
 
             (function (){
