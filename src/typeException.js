@@ -17,12 +17,28 @@
      */
     class TypeException extends Error
     {
-        constructor(expectedType, message) {
+        /**
+         * Construct an instance of a TypeException
+         *
+         * @param expectedType {*} - Type that was expected in the type check
+         * @param message {string} - Optional error message
+         * @param providedType {*} - Type provided
+         */
+        constructor(expectedType, message, providedType) {
             this.name = 'TypeException';
 
             this.expectedType = expectedType;
 
-            this.message = message || 'Invalid type: Expected ' + expectedType.name;
+            var expectedTypeName = expectedType.name || 'Function',
+                providedTypeName = providedType.name || 'Function',
+                providedTypeMessage = 'Invalid type.';
+
+            if (providedType) {
+                providedTypeMessage = 'Invalid type: ' + providedTypeName;
+            }
+
+            this.message = message
+                || providedTypeMessage + 'Expected ' + expectedTypeName;
         }
     }
 
