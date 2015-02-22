@@ -1,8 +1,7 @@
 (function () {
     "use strict";
 
-    var EnsureRecord,
-        EnsureRecordInstance;
+    var EnsureRecord;
 
     /**
      * Ensure Record
@@ -78,9 +77,10 @@
      * @class
      * @memberof ensure
      */
-    EnsureRecordInstance = function () {
-        //Object.freeze(this);
-    };
+    class EnsureRecordInstance
+    {
+        //
+    }
 
     ensure.EnsureRecord = EnsureRecord;
     ensure.EnsureRecordInstance = EnsureRecordInstance;

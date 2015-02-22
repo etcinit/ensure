@@ -1,6 +1,6 @@
 "use strict";
 
-var ensure = require('../../ensure');
+var ensure = require('../../build/ensure');
 
 describe('ensure', function () {
     // Test object

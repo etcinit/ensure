@@ -1,7 +1,5 @@
 (function () {
-    var Nothing,
-
-        EnsureType = ensure.EnsureType;
+    var EnsureType = ensure.EnsureType;
 
     /**
      * Nothing Type
@@ -12,18 +10,12 @@
      *
      * @constructor
      */
-    Nothing = function () {
-
-    };
+    class Nothing extends EnsureType
+    {
+        //
+    }
 
     Nothing.name = 'Nothing';
-
-    /**
-     * Extend ensure type
-     *
-     * @type {ensure.EnsureType}
-     */
-    Nothing.prototype = new EnsureType();
 
     ensure.Nothing = Nothing;
 })();

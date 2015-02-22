@@ -2,10 +2,21 @@
 
 module.exports = function (grunt) {
     grunt.initConfig({
+        babel: {
+            options: {
+                comments: false
+            },
+            dist: {
+                files: {
+                    'build/ensure.js': 'build/ensure.js.es6'
+                }
+            }
+        },
+
         concat: {
             dist: {
                 src: ['src/*.js', 'src/ss/*.js'],
-                dest: 'ensure.js'
+                dest: 'build/ensure.js.es6'
             }
         },
 
@@ -41,8 +52,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-babel');
 
     grunt.registerTask('coverage', ['mocha_istanbul:coverage']);
-    grunt.registerTask('build', ['concat']);
-    grunt.registerTask('default', ['concat', 'watch']);
+    grunt.registerTask('build', ['concat', 'babel']);
+    grunt.registerTask('default', ['concat', 'babel', 'watch']);
 };

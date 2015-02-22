@@ -1,6 +1,6 @@
 "use strict";
 
-var ensure = require('../ensure'),
+var ensure = require('../build/ensure'),
 
     Nothing = ensure.Nothing,
     Nullable = ensure.Nullable,

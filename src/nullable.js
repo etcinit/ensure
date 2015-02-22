@@ -2,7 +2,6 @@
     "use strict";
 
     var Nullable,
-        NullableInstance,
 
         EnsureType = ensure.EnsureType;
 
@@ -35,79 +34,75 @@
      * @param value {*} - Internal value
      * @class
      */
-    NullableInstance = function (type, value) {
-        ensure.requireIsNewThis(NullableInstance, this);
-        ensure(type, EnsureType);
+    class NullableInstance extends EnsureType
+    {
+        constructor(type, value) {
+            ensure.requireIsNewThis(NullableInstance, this);
+            ensure(type, EnsureType);
 
-        this.type = type;
+            this.type = type;
 
-        this.value = null;
+            this.value = null;
 
-        if (value !== undefined) {
-            this.setValue(value);
+            if (value !== undefined) {
+                this.setValue(value);
+            }
         }
-    };
 
-    /**
-     * Extend ensure type
-     *
-     * @type {ensure.EnsureType}
-     */
-    NullableInstance.prototype = new EnsureType();
+        /**
+         * Set the value
+         *
+         * @name ensure.NullableInstance#setValue
+         * @function
+         *
+         * @param value {null|*} - Internal value
+         */
+        setValue(value) {
+            if (value === null) {
+                this.value = value;
+            } else {
+                ensure(value, this.type);
 
-    /**
-     * Set the value
-     *
-     * @name ensure.NullableInstance#setValue
-     * @function
-     *
-     * @param value {null|*} - Internal value
-     */
-    NullableInstance.prototype.setValue = function (value) {
-        if (value === null) {
-            this.value = value;
-        } else {
-            ensure(value, this.type);
-
-            this.value = value;
+                this.value = value;
+            }
         }
-    };
 
-    /**
-     * Get the value
-     *
-     * @name ensure.NullableInstance#getValue
-     * @function
-     *
-     * @returns {null|*} Internal value
-     */
-    NullableInstance.prototype.getValue = function () {
-        return this.value;
-    };
+        /**
+         * Get the value
+         *
+         * @name ensure.NullableInstance#getValue
+         * @function
+         *
+         * @returns {null|*} Internal value
+         */
+        getValue() {
+            return this.value;
+        }
 
-    /**
-     * Get whether the value is null
-     *
-     * @name ensure.NullableInstance#isNull
-     * @function
-     *
-     * @returns {boolean} True if the internal value is null
-     */
-    NullableInstance.prototype.isNull = function () {
-        return (this.value === null);
-    };
+        /**
+         * Get whether the value is null
+         *
+         * @name ensure.NullableInstance#isNull
+         * @function
+         *
+         * @returns {boolean} True if the internal value is null
+         */
+        isNull() {
+            return (this.value === null);
+        }
 
-    /**
-     * Get the expected type when not null
-     *
-     * @name ensure.NullableInstance#getType
-     * @function
-     *
-     * @returns {*} Type when not null
-     */
-    NullableInstance.prototype.getType = function () {
-        return this.type;
-    };
+        /**
+         * Get the expected type when not null
+         *
+         * @name ensure.NullableInstance#getType
+         * @function
+         *
+         * @returns {*} Type when not null
+         */
+        getType() {
+            return this.type;
+        };
+    }
 
     ensure.Nullable = Nullable;
     ensure.NullableInstance = NullableInstance;

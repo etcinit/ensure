@@ -11,7 +11,7 @@ var ensure,
 root = global || this;
 
 (function () {
-    "use strict";
+    'use strict';
 
     /**
      * Ensure function
@@ -27,9 +27,9 @@ root = global || this;
      *
      * When {@link ensure.enforce} is `false`, type checks are skipped and returns `true`
      *
-     * @param object {*} - Object to be checked
-     * @param type {Function} - Type to compare the object to
-     * @param [soft=false] {boolean} - If set to false, an exception is thrown if the type check fails
+     * @param {*} object - Object to be checked
+     * @param {Function} type - Type to compare the object to
+     * @param {Boolean} [soft=false] - If set to false, an exception is thrown if the type check fails
      * @throws {ensure.TypeException} If there is a type mismatch
      *
      * @example
@@ -46,7 +46,7 @@ root = global || this;
      *
      * @see {@link ensure.enforce} for more information on production-mode
      *
-     * @returns {boolean}
+     * @returns {boolean} -
      */
     ensureFunction = function (object, type, soft) {
         // If enforce mode is off, we skip type checks
@@ -125,7 +125,7 @@ root = global || this;
     /**
      * Get array containing JavaScript types supported by Ensure.js
      *
-     * @returns {Array}
+     * @returns {Array} -
      */
     ensure.getSupportedTypes = function () {
         return [
@@ -142,7 +142,8 @@ root = global || this;
     /**
      * Check if object is undefined, null or an empty string
      *
-     * @param object {*} - Object to be checked
+     * @param {*} object - Object to be checked
+     *
      * @returns {boolean} True if the object is null, undefined or an empty string
      */
     ensure.isEmpty = function (object) {
@@ -166,7 +167,7 @@ root = global || this;
      * @returns {boolean} True if the object is a boolean value
      */
     ensure.isBoolean = function (object) {
-        return (typeof object === "boolean");
+        return (typeof object === 'boolean');
     };
 
     /**

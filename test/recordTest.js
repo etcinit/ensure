@@ -1,6 +1,6 @@
 "use strict";
 
-var ensure = require('../ensure.js'),
+var ensure = require('../build/ensure.js'),
     EnsureRecord = ensure.EnsureRecord,
     EnsureRecordInstance = ensure.EnsureRecordInstance;
 
