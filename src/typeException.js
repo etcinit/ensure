@@ -28,6 +28,7 @@
             this.name = 'TypeException';
 
             this.expectedType = expectedType;
+            this.providedType = providedType;
 
             var expectedTypeName = expectedType.name || 'Function',
                 providedTypeName = providedType.name || 'Function',

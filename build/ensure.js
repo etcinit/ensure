@@ -20,27 +20,27 @@ root = global || undefined;
 
         if (type === String) {
             if (ensure.isNotString(object)) {
-                return throwTypeException(String, soft);
+                return throwTypeException(String, soft, object);
             }
         } else if (type === Boolean) {
             if (ensure.isNotBoolean(object)) {
-                return throwTypeException(Boolean, soft);
+                return throwTypeException(Boolean, soft, object);
             }
         } else if (type === Array) {
             if (ensure.isNotArray(object)) {
-                return throwTypeException(Array, soft);
+                return throwTypeException(Array, soft, object);
             }
         } else if (type === Number) {
             if (ensure.isNotNumber(object)) {
-                return throwTypeException(Number, soft);
+                return throwTypeException(Number, soft, object);
             }
         } else if (type === Object) {
             if (ensure.isNotObject(object)) {
-                return throwTypeException(Object, soft);
+                return throwTypeException(Object, soft, object);
             }
         } else if (type === ensure.Nothing) {
             if (object !== undefined) {
-                return throwTypeException(Nothing, soft);
+                return throwTypeException(Nothing, soft, object);
             }
         } else if (type instanceof ensure.NullableInstance) {
             if (!(object instanceof ensure.NullableInstance) && object !== null) {
@@ -48,23 +48,23 @@ root = global || undefined;
             }
         } else if (type === ensure.EnsureType) {
             if (!object instanceof Function || ensure.isNotIn(object, ensure.getSupportedTypes())) {
-                return throwTypeException(ensure.EnsureType, soft);
+                return throwTypeException(ensure.EnsureType, soft, object);
             }
         } else {
             if (object instanceof type === false) {
-                return throwTypeException(type, soft);
+                return throwTypeException(type, soft, object);
             }
         }
 
         return true;
     };
 
-    function throwTypeException(type, soft) {
+    function throwTypeException(type, soft, provided) {
         if (soft) {
             return false;
         }
 
-        throw new ensure.TypeException(type);
+        throw new ensure.TypeException(type, null, provided);
     }
 
     ensure = ensureFunction;
@@ -482,14 +482,23 @@ root = global || undefined;
     "use strict";
 
     var TypeException = (function (Error) {
-        function TypeException(expectedType, message) {
+        function TypeException(expectedType, message, providedType) {
             _classCallCheck(this, TypeException);
 
             this.name = "TypeException";
 
             this.expectedType = expectedType;
+            this.providedType = providedType;
 
-            this.message = message || "Invalid type: Expected " + expectedType.name;
+            var expectedTypeName = expectedType.name || "Function",
+                providedTypeName = providedType.name || "Function",
+                providedTypeMessage = "Invalid type.";
+
+            if (providedType) {
+                providedTypeMessage = "Invalid type: " + providedTypeName;
+            }
+
+            this.message = message || providedTypeMessage + "Expected " + expectedTypeName;
         }
 
         _inherits(TypeException, Error);
