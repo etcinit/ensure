@@ -490,15 +490,15 @@ root = global || undefined;
             this.expectedType = expectedType;
             this.providedType = providedType;
 
-            var expectedTypeName = expectedType.name || "Function",
-                providedTypeName = providedType.name || "Function",
-                providedTypeMessage = "Invalid type.";
+            var expectedTypeName = expectedType.name || typeof expectedType,
+                providedTypeName = providedType.name || typeof providedType,
+                providedTypeMessage = "Invalid type";
 
             if (providedType) {
                 providedTypeMessage = "Invalid type: " + providedTypeName;
             }
 
-            this.message = message || providedTypeMessage + "Expected " + expectedTypeName;
+            this.message = message || "" + providedTypeMessage + ". Expected " + expectedTypeName;
         }
 
         _inherits(TypeException, Error);
